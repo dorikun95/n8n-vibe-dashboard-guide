@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>n8n x Vibe Coding x Claude Code — Dashboard Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #fafafa;
+      --bg-sidebar: #111111;
+      --bg-card: #ffffff;
+      --text-primary: #1a1a1a;
+      --text-secondary: #6b7280;
+      --text-sidebar: #a0a0a0;
+      --text-sidebar-active: #e5e5e5;
+      --border: #e5e7eb;
+      --accent: #2563eb;
+      --accent-light: #eff4ff;
+      --code-bg: #1e1e2e;
+      --code-text: #cdd6f4;
+      --tag-bg: #f1f5f9;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 2rem;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: var(--text-primary);
+      background: var(--bg-primary);
+      line-height: 1.7;
+      font-size: 15px;
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 260px;
+      height: 100vh;
+      background: var(--bg-sidebar);
+      padding: 2rem 0;
+      overflow-y: auto;
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid #222;
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-header h1 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-sidebar-active);
+      letter-spacing: -0.01em;
+      line-height: 1.4;
+    }
+
+    .sidebar-header span {
+      font-size: 12px;
+      color: var(--text-sidebar);
+      display: block;
+      margin-top: 4px;
+    }
+
+    .sidebar-nav {
+      list-style: none;
+      flex: 1;
+    }
+
+    .sidebar-nav li a {
+      display: block;
+      padding: 8px 1.5rem;
+      color: var(--text-sidebar);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 400;
+      border-left: 3px solid transparent;
+      transition: all 0.15s;
+    }
+
+    .sidebar-nav li a:hover {
+      color: var(--text-sidebar-active);
+      background: #1a1a1a;
+    }
+
+    .sidebar-nav li a.active {
+      color: var(--text-sidebar-active);
+      border-left-color: var(--accent);
+      background: #1a1a1a;
+    }
+
+    .sidebar-nav .nav-group {
+      font-size: 11px;
+      font-weight: 600;
+      color: #555;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 1.2rem 1.5rem 0.4rem;
+    }
+
+    /* Content */
+    .content {
+      grid-column: 2;
+      padding: 3rem;
+      max-width: 900px;
+    }
+
+    /* Hero */
+    .hero {
+      margin-bottom: 3rem;
+    }
+
+    .hero h2 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .hero p {
+      color: var(--text-secondary);
+      font-size: 15px;
+      max-width: 600px;
+    }
+
+    .hero .tagline {
+      margin-top: 1.25rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-card);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 6px 6px 0;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    /* Section */
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-subtitle {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 1.75rem 0 0.75rem;
+      color: var(--text-primary);
+    }
+
+    /* Card */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .card p {
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+    }
+
+    .card p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Flow Diagram */
+    .flow {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      padding: 1.5rem 0;
+    }
+
+    .flow-node {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.75rem 1.5rem;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+      width: 280px;
+    }
+
+    .flow-node .label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    .flow-arrow {
+      width: 1px;
+      height: 28px;
+      background: var(--border);
+      position: relative;
+    }
+
+    .flow-arrow::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: -4px;
+      width: 0;
+      height: 0;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 6px solid var(--border);
+    }
+
+    /* Table */
+    .table-wrapper {
+      overflow-x: auto;
+      margin-bottom: 1.25rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+
+    thead {
+      background: var(--text-primary);
+      color: #fff;
+    }
+
+    th {
+      padding: 10px 16px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    td {
+      padding: 10px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+
+    tbody tr:hover {
+      background: #f9f9fb;
+    }
+
+    /* Code Block */
+    .code-block {
+      background: var(--code-bg);
+      border-radius: 8px;
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+    }
+
+    .code-header {
+      background: #16162a;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #888;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .code-block pre {
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .code-block code {
+      font-family: 'JetBrains Mono', 'Fira Code', monospace;
+      color: var(--code-text);
+    }
+
+    /* Inline code */
+    code:not(.code-block code) {
+      background: var(--tag-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-primary);
+    }
+
+    /* Insight Box */
+    .insight {
+      border-left: 3px solid var(--accent);
+      background: var(--accent-light);
+      padding: 1rem 1.25rem;
+      border-radius: 0 6px 6px 0;
+      margin: 1rem 0 1.25rem;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .insight strong {
+      color: var(--text-primary);
+    }
+
+    /* Step Badge */
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .step-badge {
+      width: 32px;
+      height: 32px;
+      background: var(--text-primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .step-header h3 {
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    /* Sub-step */
+    .substep {
+      margin: 1.5rem 0;
+    }
+
+    .substep h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    /* Checklist */
+    .checklist {
+      list-style: none;
+    }
+
+    .checklist li {
+      padding: 6px 0;
+      font-size: 14px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .checklist li::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* Library Grid */
+    .lib-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+    }
+
+    .lib-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .lib-card h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .lib-card .lib-cmd {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-bottom: 8px;
+    }
+
+    .lib-card .lib-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .lib-card .lib-tag {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 11px;
+      font-weight: 500;
+      padding: 2px 8px;
+      background: var(--tag-bg);
+      border-radius: 4px;
+      color: var(--text-secondary);
+    }
+
+    /* Timeline */
+    .timeline {
+      position: relative;
+      padding-left: 3rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 15px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: var(--border);
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .timeline-item::before {
+      content: attr(data-step);
+      position: absolute;
+      left: -3rem;
+      width: 30px;
+      height: 30px;
+      background: var(--text-primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .timeline-item h4 {
+      font-size: 15px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .timeline-item p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Tips Table */
+    .tips-table td:first-child {
+      font-weight: 500;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    /* Comparison cards */
+    .method-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .method-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+    }
+
+    .method-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .method-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    /* Project tree */
+    .tree {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .tree .file {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .tree .comment {
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    /* Mobile menu toggle */
+    .menu-toggle {
+      display: none;
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 200;
+      background: var(--bg-sidebar);
+      border: none;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menu-toggle svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 90;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .content {
+        padding: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.25s ease;
+      }
+
+      .sidebar-open .sidebar {
+        transform: translateX(0);
+      }
+
+      .sidebar-open .overlay {
+        display: block;
+      }
+
+      .content {
+        grid-column: 1;
+        padding: 4rem 1.25rem 2rem;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+
+      .hero h2 {
+        font-size: 22px;
+      }
+
+      .method-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lib-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .flow-node {
+        width: 100%;
+        max-width: 280px;
+      }
+    }
+
+    /* Syntax Highlighting */
+    .kw { color: #cba6f7; }
+    .str { color: #a6e3a1; }
+    .cm { color: #6c7086; font-style: italic; }
+    .fn { color: #89b4fa; }
+    .num { color: #fab387; }
+    .type { color: #f9e2af; }
+    .op { color: #89dceb; }
+  </style>
+</head>
+<body>
+  <button class="menu-toggle" aria-label="Toggle menu">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/>
+    </svg>
+  </button>
+  <div class="overlay"></div>
+
+  <div class="layout">
+    <nav class="sidebar">
+      <div class="sidebar-header">
+        <h1>n8n x Vibe Coding<br>Dashboard Guide</h1>
+        <span>Claude Code + Next.js + Vercel</span>
+      </div>
+      <ul class="sidebar-nav">
+        <li class="nav-group">Overview</li>
+        <li><a href="#architecture">Architecture</a></li>
+        <li><a href="#tools">Tool Comparison</a></li>
+        <li class="nav-group">Steps</li>
+        <li><a href="#step1">1. n8n Workflow</a></li>
+        <li><a href="#step2">2. Environment Setup</a></li>
+        <li><a href="#step3">3. Vibe Coding</a></li>
+        <li><a href="#step4">4. Project Structure</a></li>
+        <li><a href="#step5">5. Vercel Deploy</a></li>
+        <li><a href="#step6">6. Realtime Integration</a></li>
+        <li><a href="#step7">7. Pro Tips</a></li>
+        <li class="nav-group">Reference</li>
+        <li><a href="#libraries">Libraries</a></li>
+        <li><a href="#summary">Summary</a></li>
+      </ul>
+    </nav>
+
+    <main class="content">
+      <!-- Hero -->
+      <div class="hero">
+        <h2>n8n x Vibe Coding x Claude Code</h2>
+        <p>실시간 대시보드 구축 가이드 — n8n이 데이터를 수집하고, Claude Code가 Next.js 대시보드를 생성하고, Vercel로 배포합니다.</p>
+        <div class="tagline">
+          코드 한 줄 안 짜도 됩니다. 말로 설명하면 Claude Code가 다 만들어줍니다.
+        </div>
+      </div>
+
+      <!-- Architecture -->
+      <section id="architecture">
+        <h2 class="section-title">Architecture</h2>
+        <div class="card">
+          <div class="flow">
+            <div class="flow-node">Data Sources<div class="label">Social Media / RSS / API / DB</div></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node">n8n Workflow<div class="label">Collect — Process — Store</div></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node">Webhook / API<div class="label">n8n HTTP Response Node</div></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node">Next.js Dashboard<div class="label">Realtime Charts + Tables</div></div>
+            <div class="flow-arrow"></div>
+            <div class="flow-node">Vercel Deploy<div class="label">Accessible from anywhere</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Tools -->
+      <section id="tools">
+        <h2 class="section-title">Tool Comparison</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Tool</th><th>Role</th><th>Key Advantage</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>n8n</strong></td><td>Data Pipeline</td><td>No-code complex collection automation</td></tr>
+              <tr><td><strong>Claude Code</strong></td><td>Dashboard Dev</td><td>Describe in words, get working code</td></tr>
+              <tr><td><strong>Next.js</strong></td><td>Frontend Framework</td><td>Built-in API Routes + SSR</td></tr>
+              <tr><td><strong>Vercel</strong></td><td>Deploy Platform</td><td>Auto deploy on git push</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Step 1 -->
+      <section id="step1">
+        <div class="step-header">
+          <div class="step-badge">1</div>
+          <h3>n8n Workflow — Data Collection & API</h3>
+        </div>
+
+        <div class="substep">
+          <h4>1-1. Basic Workflow Pattern</h4>
+          <div class="card">
+            <div class="flow">
+              <div class="flow-node">Webhook Trigger / Cron Schedule</div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Data Collection Node<div class="label">HTTP Request / RSS / DB Query</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Data Processing Node<div class="label">Function node for JSON formatting</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Storage (Optional)<div class="label">Google Sheets / DB / Airtable</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">HTTP Response Node<div class="label">Dashboard fetches data here</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>1-2. Creating API Endpoint with n8n Webhook</h4>
+          <p style="color:var(--text-secondary); margin-bottom: 1rem;">n8n에서 Webhook 노드를 추가하고, HTTP Method를 <code>GET</code>, Path를 <code>/dashboard-data</code>로 설정합니다. 마지막에 Respond to Webhook 노드를 연결합니다.</p>
+          <div class="code-block">
+            <div class="code-header">n8n Function Node — Data Format</div>
+            <pre><code><span class="cm">// n8n Function 노드 코드</span>
+<span class="kw">const</span> rawData = $input.all();
+
+<span class="kw">return</span> [{
+  json: {
+    summary: {
+      totalCount: rawData.length,
+      lastUpdated: <span class="kw">new</span> <span class="type">Date</span>().<span class="fn">toISOString</span>(),
+    },
+    <span class="cm">// 차트용 시계열 데이터</span>
+    timeSeries: rawData.<span class="fn">map</span>(item => ({
+      date: item.json.date,
+      value: item.json.count,
+      label: item.json.category
+    })),
+    <span class="cm">// 테이블용 상세 데이터</span>
+    tableData: rawData.<span class="fn">map</span>(item => ({
+      id: item.json.id,
+      title: item.json.title,
+      status: item.json.status,
+      timestamp: item.json.timestamp
+    }))
+  }
+}];</code></pre>
+          </div>
+          <div class="insight">
+            <strong>Core Insight</strong> — n8n의 Webhook 노드 하나가 곧 REST API입니다. 별도 백엔드 서버 없이 n8n 자체가 API 서버 역할을 합니다.
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>1-3. CORS Configuration (Required)</h4>
+          <div class="code-block">
+            <div class="code-header">Response Headers</div>
+            <pre><code>Access-Control-Allow-Origin: *
+Access-Control-Allow-Methods: GET, POST
+Content-Type: application/json</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 2 -->
+      <section id="step2">
+        <div class="step-header">
+          <div class="step-badge">2</div>
+          <h3>Claude Code Setup & Project Init</h3>
+        </div>
+
+        <div class="substep">
+          <h4>2-1. Environment Setup</h4>
+          <div class="code-block">
+            <div class="code-header">bash</div>
+            <pre><code><span class="cm"># Node.js 설치 확인 (18 이상 필요)</span>
+node --version
+
+<span class="cm"># Claude Code 설치</span>
+npm install -g @anthropic/claude-code
+
+<span class="cm"># 새 Next.js 프로젝트 생성</span>
+npx create-next-app@latest my-dashboard \
+  --typescript \
+  --tailwind \
+  --app \
+  --no-src-dir
+
+cd my-dashboard</code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>2-2. Run Claude Code</h4>
+          <div class="code-block">
+            <div class="code-header">bash</div>
+            <pre><code><span class="cm"># 프로젝트 폴더 안에서</span>
+claude</code></pre>
+          </div>
+          <p style="color:var(--text-secondary)">터미널에 Claude Code 인터페이스가 열립니다. 이제 말로 지시하면 됩니다.</p>
+        </div>
+      </section>
+
+      <!-- Step 3 -->
+      <section id="step3">
+        <div class="step-header">
+          <div class="step-badge">3</div>
+          <h3>Vibe Coding — Instruct with Words</h3>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem">
+          <p style="font-weight:600;color:var(--text-primary);margin-bottom:4px">Prompt Principle</p>
+          <p>Bad: "대시보드 만들어줘"</p>
+          <p>Good: 목적 + 데이터 구조 + 원하는 시각화 + 기술 스택을 구체적으로 설명</p>
+        </div>
+
+        <div class="substep">
+          <h4>3-1. Initial Prompt Template</h4>
+          <div class="code-block">
+            <div class="code-header">Claude Code Prompt</div>
+            <pre><code>나는 n8n으로 수집한 데이터를 시각화하는 실시간 대시보드를 만들려고 해.
+
+## 데이터 소스
+- n8n Webhook URL: https://your-n8n.com/webhook/dashboard-data
+- 응답 JSON 구조:
+  {
+    "summary": { "totalCount": 150, "lastUpdated": "..." },
+    "timeSeries": [{ "date": "2024-01-01", "value": 42, "label": "category" }],
+    "tableData": [{ "id": 1, "title": "제목", "status": "active", "timestamp": "..." }]
+  }
+
+## 원하는 기능
+1. 30초마다 자동 데이터 갱신
+2. 상단: KPI 카드 3개 (총 건수, 오늘 건수, 증감률)
+3. 중간: 라인 차트 (시계열 데이터 시각화)
+4. 하단: 데이터 테이블 (검색, 정렬 기능 포함)
+5. 마지막 업데이트 시간 표시
+
+## 기술 요구사항
+- Next.js App Router, Recharts, Tailwind CSS, TypeScript
+- Vercel 배포 최적화</code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>3-2. Follow-up Prompt Examples</h4>
+          <div class="table-wrapper">
+            <table class="tips-table">
+              <thead>
+                <tr><th>Situation</th><th>Prompt</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Layout Fix</td><td>상단 KPI 카드를 더 눈에 띄게, 숫자가 크게, 증감은 초록/빨강으로</td></tr>
+                <tr><td>Error Handling</td><td>API 호출 실패시 스켈레톤 로딩과 에러 메시지 컴포넌트 추가</td></tr>
+                <tr><td>Responsive</td><td>모바일에서도 잘 보이게 반응형, 카드를 세로로 쌓아줘</td></tr>
+                <tr><td>Env Variables</td><td>Webhook URL을 NEXT_PUBLIC_N8N_WEBHOOK_URL로 분리, .env.local 생성</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 4 -->
+      <section id="step4">
+        <div class="step-header">
+          <div class="step-badge">4</div>
+          <h3>Project Structure</h3>
+        </div>
+
+        <div class="tree">
+my-dashboard/
+├── app/
+│   ├── <span class="file">layout.tsx</span>          <span class="comment">— Layout</span>
+│   ├── <span class="file">page.tsx</span>            <span class="comment">— Main Dashboard</span>
+│   └── api/data/
+│       └── <span class="file">route.ts</span>        <span class="comment">— n8n Proxy API</span>
+├── components/
+│   ├── <span class="file">KpiCard.tsx</span>         <span class="comment">— KPI Card</span>
+│   ├── <span class="file">TimeSeriesChart.tsx</span> <span class="comment">— Line Chart</span>
+│   ├── <span class="file">DataTable.tsx</span>       <span class="comment">— Data Table</span>
+│   └── <span class="file">LastUpdated.tsx</span>     <span class="comment">— Update Timestamp</span>
+├── hooks/
+│   └── <span class="file">useDashboardData.ts</span> <span class="comment">— Data Fetching Hook</span>
+├── types/
+│   └── <span class="file">dashboard.ts</span>        <span class="comment">— TypeScript Types</span>
+├── <span class="file">.env.local</span>              <span class="comment">— Env Variables</span>
+├── <span class="file">.env.example</span>            <span class="comment">— Env Example</span>
+└── <span class="file">vercel.json</span>             <span class="comment">— Vercel Config</span>
+        </div>
+
+        <h4 class="section-subtitle">Core: Real-time Data Hook</h4>
+        <div class="code-block">
+          <div class="code-header">hooks/useDashboardData.ts</div>
+          <pre><code><span class="kw">import</span> { useState, useEffect } <span class="kw">from</span> <span class="str">'react'</span>;
+
+<span class="kw">export function</span> <span class="fn">useDashboardData</span>(refreshInterval = <span class="num">30000</span>) {
+  <span class="kw">const</span> [data, setData] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [loading, setLoading] = <span class="fn">useState</span>(<span class="kw">true</span>);
+  <span class="kw">const</span> [error, setError] = <span class="fn">useState</span>(<span class="kw">null</span>);
+  <span class="kw">const</span> [lastUpdated, setLastUpdated] = <span class="fn">useState</span>(<span class="kw">null</span>);
+
+  <span class="kw">const</span> <span class="fn">fetchData</span> = <span class="kw">async</span> () => {
+    <span class="kw">try</span> {
+      <span class="kw">const</span> res = <span class="kw">await</span> <span class="fn">fetch</span>(<span class="str">'/api/data'</span>);
+      <span class="kw">if</span> (!res.ok) <span class="kw">throw new</span> <span class="type">Error</span>(<span class="str">'데이터 로드 실패'</span>);
+      <span class="kw">const</span> json = <span class="kw">await</span> res.<span class="fn">json</span>();
+      <span class="fn">setData</span>(json);
+      <span class="fn">setLastUpdated</span>(<span class="kw">new</span> <span class="type">Date</span>());
+      <span class="fn">setError</span>(<span class="kw">null</span>);
+    } <span class="kw">catch</span> (err) {
+      <span class="fn">setError</span>(err.message);
+    } <span class="kw">finally</span> {
+      <span class="fn">setLoading</span>(<span class="kw">false</span>);
+    }
+  };
+
+  <span class="fn">useEffect</span>(() => {
+    <span class="fn">fetchData</span>();
+    <span class="kw">const</span> interval = <span class="fn">setInterval</span>(fetchData, refreshInterval);
+    <span class="kw">return</span> () => <span class="fn">clearInterval</span>(interval);
+  }, [refreshInterval]);
+
+  <span class="kw">return</span> { data, loading, error, lastUpdated, refresh: fetchData };
+}</code></pre>
+        </div>
+        <div class="insight">
+          <strong>Core Insight</strong> — Next.js API Route를 중간에 두는 이유는 n8n Webhook URL을 클라이언트에 노출하지 않기 위해서입니다. 보안 + CORS 문제를 한 번에 해결합니다.
+        </div>
+      </section>
+
+      <!-- Step 5 -->
+      <section id="step5">
+        <div class="step-header">
+          <div class="step-badge">5</div>
+          <h3>Vercel Deploy</h3>
+        </div>
+
+        <div class="substep">
+          <h4>5-1. GitHub Integration (Recommended)</h4>
+          <div class="code-block">
+            <div class="code-header">bash</div>
+            <pre><code>git init
+git add .
+git commit -m <span class="str">"Initial dashboard setup"</span>
+git remote add origin https://github.com/your-id/my-dashboard.git
+git push -u origin main</code></pre>
+          </div>
+          <ol style="color:var(--text-secondary);font-size:14px;padding-left:1.25rem;margin-bottom:1rem">
+            <li>vercel.com Login</li>
+            <li>Add New Project — Select GitHub repo</li>
+            <li>Framework: Next.js (auto-detected)</li>
+            <li>Add Environment Variable: <code>N8N_WEBHOOK_URL</code></li>
+            <li>Click Deploy — Done in 1-2 min</li>
+          </ol>
+        </div>
+
+        <div class="substep">
+          <h4>5-2. Vercel CLI Deploy (Quick Method)</h4>
+          <div class="code-block">
+            <div class="code-header">bash</div>
+            <pre><code>npm install -g vercel
+vercel
+vercel env add N8N_WEBHOOK_URL
+vercel --prod</code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>5-3. vercel.json Configuration</h4>
+          <div class="code-block">
+            <div class="code-header">vercel.json</div>
+            <pre><code>{
+  <span class="str">"functions"</span>: {
+    <span class="str">"app/api/**"</span>: { <span class="str">"maxDuration"</span>: <span class="num">10</span> }
+  },
+  <span class="str">"headers"</span>: [{
+    <span class="str">"source"</span>: <span class="str">"/api/(.*)"</span>,
+    <span class="str">"headers"</span>: [
+      { <span class="str">"key"</span>: <span class="str">"Cache-Control"</span>, <span class="str">"value"</span>: <span class="str">"no-store"</span> }
+    ]
+  }]
+}</code></pre>
+          </div>
+        </div>
+      </section>
+
+      <!-- Step 6 -->
+      <section id="step6">
+        <div class="step-header">
+          <div class="step-badge">6</div>
+          <h3>n8n + Vercel — Realtime Integration</h3>
+        </div>
+
+        <div class="method-grid">
+          <div class="method-card">
+            <h4>Method A: Polling</h4>
+            <p>Dashboard polls n8n every 30 seconds</p>
+            <p style="margin-top:8px"><strong>Pros:</strong> Simple, stable</p>
+            <p><strong>Cons:</strong> Up to 30s delay</p>
+          </div>
+          <div class="method-card">
+            <h4>Method B: Push</h4>
+            <p>n8n POSTs to Vercel on data update</p>
+            <p style="margin-top:8px"><strong>Pros:</strong> True realtime</p>
+            <p><strong>Cons:</strong> More setup required</p>
+          </div>
+        </div>
+
+        <h4 class="section-subtitle">Method B: Push Implementation</h4>
+        <p style="color:var(--text-secondary);font-size:14px;margin-bottom:1rem">n8n 워크플로우 마지막에 HTTP Request 노드를 추가하여 Vercel API Route로 POST합니다.</p>
+        <div class="code-block">
+          <div class="code-header">app/api/webhook/route.ts</div>
+          <pre><code><span class="kw">import</span> { NextRequest, NextResponse } <span class="kw">from</span> <span class="str">'next/server'</span>;
+
+<span class="cm">// Simple in-memory cache (use Redis/KV for production)</span>
+<span class="kw">let</span> cache: <span class="type">any</span> = <span class="kw">null</span>;
+<span class="kw">let</span> cacheTime: <span class="type">number</span> = <span class="num">0</span>;
+
+<span class="kw">export async function</span> <span class="fn">POST</span>(req: <span class="type">NextRequest</span>) {
+  <span class="kw">const</span> secret = req.headers.<span class="fn">get</span>(<span class="str">'x-webhook-secret'</span>);
+  <span class="kw">if</span> (secret !== process.env.WEBHOOK_SECRET) {
+    <span class="kw">return</span> NextResponse.<span class="fn">json</span>(
+      { error: <span class="str">'Unauthorized'</span> }, { status: <span class="num">401</span> }
+    );
+  }
+
+  cache = <span class="kw">await</span> req.<span class="fn">json</span>();
+  cacheTime = Date.<span class="fn">now</span>();
+
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>({ ok: <span class="kw">true</span> });
+}
+
+<span class="kw">export async function</span> <span class="fn">GET</span>() {
+  <span class="kw">return</span> NextResponse.<span class="fn">json</span>(cache || { empty: <span class="kw">true</span> });
+}</code></pre>
+        </div>
+        <div class="insight">
+          <strong>Core Insight</strong> — Method B는 n8n에서 Vercel 방향으로 데이터를 "Push"하는 방식입니다. n8n이 데이터를 수집한 즉시 대시보드에 반영되므로 진짜 실시간입니다.
+        </div>
+      </section>
+
+      <!-- Step 7 -->
+      <section id="step7">
+        <div class="step-header">
+          <div class="step-badge">7</div>
+          <h3>Pro Tips</h3>
+        </div>
+
+        <div class="substep">
+          <h4>Effective Communication with Claude Code</h4>
+          <div class="table-wrapper">
+            <table class="tips-table">
+              <thead>
+                <tr><th>Situation</th><th>Say this</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>Add Component</td><td>KPI 카드 위에 날짜 필터 드롭다운 추가해줘</td></tr>
+                <tr><td>Bug Fix</td><td>차트가 모바일에서 잘려 보여. 수정해줘</td></tr>
+                <tr><td>Style Change</td><td>전체 테마를 다크 모드로 바꿔줘</td></tr>
+                <tr><td>Feature Add</td><td>CSV 다운로드 버튼 추가해줘</td></tr>
+                <tr><td>Optimization</td><td>API 호출 결과를 5분 캐시해줘</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Common Claude Code Commands</h4>
+          <div class="code-block">
+            <div class="code-header">bash</div>
+            <pre><code><span class="cm"># 특정 파일 수정 요청</span>
+claude <span class="str">"components/KpiCard.tsx 파일에 툴팁 추가해줘"</span>
+
+<span class="cm"># 전체 프로젝트 컨텍스트로 질문</span>
+claude <span class="str">"현재 프로젝트 구조 확인하고 TypeScript 에러 있으면 다 고쳐줘"</span>
+
+<span class="cm"># 파일 생성 요청</span>
+claude <span class="str">"다크모드 토글 컴포넌트 만들어서 헤더에 추가해줘"</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Vercel Deploy Checklist</h4>
+          <ul class="checklist">
+            <li><code>npm run build</code> — Build error check</li>
+            <li><code>cat .env.local</code> — Verify env variables</li>
+            <li><code>.gitignore</code> — Ensure .env is excluded</li>
+            <li><code>npx tsc --noEmit</code> — Type check</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- Libraries -->
+      <section id="libraries">
+        <h2 class="section-title">Recommended Libraries</h2>
+        <div class="lib-grid">
+          <div class="lib-card">
+            <h4>Recharts</h4>
+            <div class="lib-cmd">npm install recharts</div>
+            <div class="lib-desc">React chart library for data visualization</div>
+            <span class="lib-tag">Chart</span>
+          </div>
+          <div class="lib-card">
+            <h4>date-fns</h4>
+            <div class="lib-cmd">npm install date-fns</div>
+            <div class="lib-desc">Modern date utility library</div>
+            <span class="lib-tag">Date</span>
+          </div>
+          <div class="lib-card">
+            <h4>TanStack Table</h4>
+            <div class="lib-cmd">npm install @tanstack/react-table</div>
+            <div class="lib-desc">Advanced sorting and filtering for tables</div>
+            <span class="lib-tag">Table</span>
+          </div>
+          <div class="lib-card">
+            <h4>react-loading-skeleton</h4>
+            <div class="lib-cmd">npm install react-loading-skeleton</div>
+            <div class="lib-desc">Skeleton loading placeholders</div>
+            <span class="lib-tag">UI</span>
+          </div>
+          <div class="lib-card">
+            <h4>Socket.IO Client</h4>
+            <div class="lib-cmd">npm install socket.io-client</div>
+            <div class="lib-desc">WebSocket client for realtime data</div>
+            <span class="lib-tag">Realtime</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Summary -->
+      <section id="summary">
+        <h2 class="section-title">Summary</h2>
+        <div class="timeline">
+          <div class="timeline-item" data-step="1">
+            <h4>n8n Workflow</h4>
+            <p>Webhook 노드로 GET API 만들기, JSON 포맷 통일</p>
+          </div>
+          <div class="timeline-item" data-step="2">
+            <h4>Claude Code로 대시보드 생성</h4>
+            <p>"말로" 요구사항 설명 — Next.js + Recharts + Tailwind</p>
+          </div>
+          <div class="timeline-item" data-step="3">
+            <h4>Local Testing</h4>
+            <p>npm run dev, n8n Webhook 연결 확인</p>
+          </div>
+          <div class="timeline-item" data-step="4">
+            <h4>Vercel Deploy</h4>
+            <p>GitHub push — Auto deploy, 환경변수 설정</p>
+          </div>
+          <div class="timeline-item" data-step="5">
+            <h4>Realtime Verification</h4>
+            <p>30초 폴링 또는 n8n Push 방식 선택</p>
+          </div>
+        </div>
+
+        <div class="insight" style="margin-top:2rem">
+          <strong>Final Insight</strong> — 바이브 코딩의 본질은 "내가 원하는 것"을 명확히 말하는 것입니다. Claude Code는 코드를 짜고, n8n은 데이터를 모으고, Vercel은 배포합니다. 당신은 아이디어와 방향만 제시하면 됩니다. 이 스택의 핵심 가치는 빠른 실험, 빠른 배포, 빠른 피드백 사이클입니다.
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Active nav link tracking
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+          });
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+
+    sections.forEach(section => observer.observe(section));
+
+    // Mobile sidebar toggle
+    const menuBtn = document.querySelector('.menu-toggle');
+    const overlay = document.querySelector('.overlay');
+
+    function toggleSidebar() {
+      document.body.classList.toggle('sidebar-open');
+    }
+
+    menuBtn.addEventListener('click', toggleSidebar);
+    overlay.addEventListener('click', toggleSidebar);
+
+    // Close sidebar on nav click (mobile)
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          document.body.classList.remove('sidebar-open');
+        }
+      });
+    });
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
