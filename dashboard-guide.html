@@ -1214,6 +1214,186 @@
       line-height: 1.5;
     }
 
+    /* Tip Cards */
+    .tip-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin: 1.25rem 0;
+    }
+
+    .tip-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s;
+      position: relative;
+    }
+
+    .tip-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .tip-card .tip-num {
+      position: absolute;
+      top: -10px;
+      left: 16px;
+      width: 24px;
+      height: 24px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .tip-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 4px;
+    }
+
+    .tip-card p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 4px;
+    }
+
+    .tip-card p:last-child { margin-bottom: 0; }
+
+    /* Do / Don't pattern */
+    .do-dont {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .do-box, .dont-box {
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .do-box {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+
+    .dont-box {
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+
+    .do-box h4, .dont-box h4 {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .do-box h4 { color: #16a34a; }
+    .dont-box h4 { color: #dc2626; }
+
+    .do-box p, .dont-box p {
+      color: var(--text-secondary);
+      margin-bottom: 4px;
+    }
+
+    /* Shortcut Keys */
+    .kbd {
+      display: inline-block;
+      padding: 2px 7px;
+      background: #f1f5f9;
+      border: 1px solid #d1d5db;
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-primary);
+      box-shadow: 0 1px 0 #d1d5db;
+      line-height: 1.6;
+    }
+
+    /* Scenario Cards */
+    .scenario-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    .scenario-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .scenario-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .scenario-header {
+      padding: 0.85rem 1.25rem;
+      font-size: 13px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .scenario-card[data-cat="data"] .scenario-header { background: #3b82f6; }
+    .scenario-card[data-cat="alert"] .scenario-header { background: #ef4444; }
+    .scenario-card[data-cat="ai"] .scenario-header { background: #8b5cf6; }
+    .scenario-card[data-cat="ops"] .scenario-header { background: #f97316; }
+    .scenario-card[data-cat="social"] .scenario-header { background: #ec4899; }
+    .scenario-card[data-cat="finance"] .scenario-header { background: #14b8a6; }
+
+    .scenario-body {
+      padding: 1rem 1.25rem;
+    }
+
+    .scenario-body p {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      margin-bottom: 8px;
+    }
+
+    .scenario-body .scenario-nodes {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+    }
+
+    .scenario-node-tag {
+      font-size: 10px;
+      font-weight: 500;
+      padding: 2px 6px;
+      background: var(--tag-bg);
+      border-radius: 3px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .scenario-arrow-tag {
+      font-size: 10px;
+      color: var(--border);
+    }
+
     @media (max-width: 768px) {
       .vs-container {
         grid-template-columns: 1fr;
@@ -1242,6 +1422,15 @@
         padding: 0;
       }
       .numbered-steps {
+        grid-template-columns: 1fr;
+      }
+      .tip-grid {
+        grid-template-columns: 1fr;
+      }
+      .do-dont {
+        grid-template-columns: 1fr;
+      }
+      .scenario-grid {
         grid-template-columns: 1fr;
       }
     }
@@ -1281,6 +1470,10 @@
         <li><a href="#docker-concept">Docker Concept</a></li>
         <li><a href="#hosting-docker">Docker Self-Hosting</a></li>
         <li><a href="#receipt-ocr">Receipt OCR Workflow</a></li>
+        <li class="nav-group">n8n Tips</li>
+        <li><a href="#n8n-tips">Workflow Tips</a></li>
+        <li><a href="#n8n-patterns">Useful Patterns</a></li>
+        <li><a href="#n8n-scenarios">Use Case Gallery</a></li>
         <li class="nav-group">Dashboard Steps</li>
         <li><a href="#step1">1. n8n Workflow</a></li>
         <li><a href="#step2">2. Environment Setup</a></li>
@@ -2664,6 +2857,499 @@ https://drive.google.com/uc?export=view&amp;id={{$json["id"]}}</code></pre>
           <div class="insight">
             <strong>Core Insight</strong> — 반드시 <code>uc?export=view&amp;id=</code> 형식을 사용해야 OpenAI 서버에서 이미지에 직접 접근할 수 있습니다. <code>/file/d/.../view</code> 형식은 HTML 뷰어 페이지이므로 Vision API가 이미지를 인식하지 못합니다.
           </div>
+        </div>
+      </section>
+
+      <!-- n8n Tips -->
+      <section id="n8n-tips">
+        <h2 class="section-title">n8n Workflow Tips</h2>
+
+        <div class="substep">
+          <h4>Top 10 n8n Tips</h4>
+          <div class="tip-grid">
+            <div class="tip-card">
+              <div class="tip-num">1</div>
+              <h4>Sticky Note 활용</h4>
+              <p>워크플로우에 Sticky Note를 추가해서 각 노드 그룹의 역할을 설명하세요. 나중에 다시 볼 때 이해가 빠릅니다.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">2</div>
+              <h4>Error Workflow 설정</h4>
+              <p>Settings &rarr; Error Workflow에 별도 알림 워크플로우를 연결하세요. 에러 발생 시 Slack/Email로 즉시 알림을 받을 수 있습니다.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">3</div>
+              <h4>Execution Data 저장 설정</h4>
+              <p>Settings &rarr; Save Execution Data를 "Only on Error"로 설정하면 디스크 사용량을 크게 줄일 수 있습니다.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">4</div>
+              <h4>Sub-Workflow 분리</h4>
+              <p>복잡한 워크플로우는 기능별로 분리하세요. Execute Workflow 노드로 다른 워크플로우를 호출할 수 있습니다.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">5</div>
+              <h4>Credential 분리 관리</h4>
+              <p>API Key는 절대 노드에 직접 입력하지 마세요. Credentials 메뉴에서 별도 관리하면 여러 워크플로우에서 재사용할 수 있습니다.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">6</div>
+              <h4>Test vs Production URL</h4>
+              <p>Webhook 노드에는 Test URL과 Production URL이 별도로 있습니다. 개발 중에는 Test URL, 배포 시에는 Production URL을 사용하세요.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">7</div>
+              <h4>Pin Data로 빠른 테스트</h4>
+              <p>노드 출력에 "Pin Data"를 설정하면 해당 노드를 실행하지 않고 고정 데이터로 테스트할 수 있어 API 호출 비용을 절약합니다.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">8</div>
+              <h4>Wait 노드로 지연 처리</h4>
+              <p>API Rate Limit을 피하려면 Wait 노드로 요청 간 간격을 두세요. "Resume on Webhook"으로 외부 승인 대기도 가능합니다.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">9</div>
+              <h4>Expression Editor 활용</h4>
+              <p>노드 필드에서 <span class="kbd">Ctrl</span> + <span class="kbd">Space</span>로 Expression Editor를 열 수 있습니다. 이전 노드 데이터를 자동완성으로 빠르게 참조하세요.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-num">10</div>
+              <h4>Version Control 활용</h4>
+              <p>워크플로우 JSON을 Git으로 관리하세요. 변경 이력 추적과 롤백이 가능합니다. Export &rarr; JSON 다운로드 &rarr; Git commit 순서입니다.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>자주 쓰는 Expression</h4>
+          <div class="code-block">
+            <div class="code-header">n8n Expression Cheatsheet</div>
+            <pre><code><span class="cm">// 이전 노드 데이터 참조</span>
+{{ $json.fieldName }}              <span class="cm">// 직전 노드의 필드</span>
+{{ $node["NodeName"].json.field }} <span class="cm">// 특정 노드의 필드</span>
+
+<span class="cm">// 날짜/시간</span>
+{{ $now.toISO() }}                 <span class="cm">// 현재 시간 (ISO)</span>
+{{ $now.format("yyyy-MM-dd") }}    <span class="cm">// 날짜만 (2026-03-13)</span>
+{{ $now.minus({ days: 7 }) }}      <span class="cm">// 7일 전</span>
+
+<span class="cm">// 문자열 처리</span>
+{{ $json.name.toUpperCase() }}     <span class="cm">// 대문자 변환</span>
+{{ $json.text.slice(0, 100) }}     <span class="cm">// 앞 100자 자르기</span>
+{{ $json.email.includes("@") }}    <span class="cm">// 포함 여부 (true/false)</span>
+
+<span class="cm">// 조건부 값</span>
+{{ $json.score > 80 ? "Pass" : "Fail" }}  <span class="cm">// 삼항 연산자</span>
+{{ $json.name ?? "Unknown" }}              <span class="cm">// null이면 기본값</span>
+
+<span class="cm">// 배열 처리</span>
+{{ $json.items.length }}           <span class="cm">// 배열 길이</span>
+{{ $json.items[0].name }}          <span class="cm">// 첫 번째 항목</span>
+{{ $json.items.map(i => i.id) }}   <span class="cm">// ID만 추출</span>
+
+<span class="cm">// 환경변수</span>
+{{ $env.API_KEY }}                 <span class="cm">// 환경변수 참조</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>n8n 키보드 단축키</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Shortcut</th><th>Action</th><th>When to Use</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">Enter</span></td><td>워크플로우 실행</td><td>전체 워크플로우 테스트</td></tr>
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">Shift</span> + <span class="kbd">Enter</span></td><td>선택 노드까지 실행</td><td>부분 테스트</td></tr>
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">A</span></td><td>모든 노드 선택</td><td>일괄 이동/삭제</td></tr>
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">C</span> / <span class="kbd">V</span></td><td>노드 복사/붙여넣기</td><td>노드 재사용</td></tr>
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">Z</span></td><td>실행 취소</td><td>실수 복구</td></tr>
+                <tr><td><span class="kbd">Tab</span></td><td>노드 검색 패널 열기</td><td>새 노드 추가</td></tr>
+                <tr><td><span class="kbd">D</span></td><td>선택 노드 비활성화</td><td>임시로 노드 건너뛰기</td></tr>
+                <tr><td><span class="kbd">F2</span></td><td>노드 이름 변경</td><td>워크플로우 정리</td></tr>
+                <tr><td><span class="kbd">+</span> / <span class="kbd">-</span></td><td>캔버스 확대/축소</td><td>전체 보기 조정</td></tr>
+                <tr><td><span class="kbd">Ctrl</span> + <span class="kbd">S</span></td><td>워크플로우 저장</td><td>변경 사항 저장</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Error Handling Best Practices</h4>
+          <div class="do-dont">
+            <div class="do-box">
+              <h4>DO</h4>
+              <p>Error Workflow를 반드시 설정하세요</p>
+              <p>Continue On Fail로 에러 무시 가능한 노드 표시</p>
+              <p>Retry On Fail로 일시적 에러 자동 재시도</p>
+              <p>에러 로그를 Google Sheets에 기록</p>
+              <p>각 워크플로우에 에러 알림 채널 연결</p>
+            </div>
+            <div class="dont-box">
+              <h4>DON'T</h4>
+              <p>에러를 무시하고 방치하지 마세요</p>
+              <p>모든 노드에 Continue On Fail 남발 금지</p>
+              <p>무한 재시도 설정 (서버 리소스 고갈)</p>
+              <p>에러 메시지 없이 빈 응답 반환</p>
+              <p>프로덕션에서 디버그 로그 활성화 방치</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Webhook 보안 체크리스트</h4>
+          <div class="card">
+            <ul class="checklist">
+              <li>Header Authentication 설정 (<code>x-webhook-secret</code>)</li>
+              <li>IP Whitelist로 허용된 IP만 접근 가능하도록 제한</li>
+              <li>HTTPS 필수 (HTTP는 데이터가 평문으로 전송)</li>
+              <li>Rate Limiting으로 과도한 요청 차단</li>
+              <li>입력 데이터 검증 (IF 노드로 필수 필드 체크)</li>
+              <li>Webhook URL을 외부에 공개하지 마세요 (환경변수로 관리)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> &#8212; n8n은 강력하지만, 잘 관리하지 않으면 "자동화된 혼란"이 됩니다. 워크플로우에 이름, 설명, Sticky Note를 달고, Error Workflow를 반드시 설정하세요. 미래의 나에게 주는 선물입니다.
+        </div>
+      </section>
+
+      <!-- n8n Patterns -->
+      <section id="n8n-patterns">
+        <h2 class="section-title">n8n Useful Patterns</h2>
+
+        <div class="substep">
+          <h4>Pattern 1: Retry + Fallback</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">외부 API 호출 실패 시 자동 재시도하고, 최종 실패 시 대체 동작을 수행합니다.</p>
+          <div class="card">
+            <div class="h-flow">
+              <div class="h-flow-node" style="border-color:#3b82f6">Trigger<div class="h-label">시작</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#f97316">HTTP Request<div class="h-label">Retry: 3회</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#8b5cf6">IF (Success?)<div class="h-label">상태 코드 확인</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#22c55e">Process Data<div class="h-label">정상 처리</div></div>
+            </div>
+            <div style="text-align:center;margin:0.5rem 0">
+              <span style="font-size:11px;color:var(--text-secondary)">IF 실패 시 &#8595;</span>
+            </div>
+            <div class="h-flow">
+              <div class="h-flow-node" style="border-color:#ef4444">Error Log<div class="h-label">에러 기록</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#ef4444">Slack Alert<div class="h-label">팀 알림</div></div>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">HTTP Request Node &#8212; Retry Settings</div>
+            <pre><code><span class="cm">// Node Settings에서 설정:</span>
+Retry On Fail: <span class="kw">true</span>
+Max Tries: <span class="num">3</span>
+Wait Between Tries (ms): <span class="num">2000</span>
+<span class="cm">// 2초 간격으로 최대 3회 재시도</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Pattern 2: Batch Processing</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">대량 데이터를 일정 단위로 나눠 처리합니다. API Rate Limit 회피에 필수입니다.</p>
+          <div class="card">
+            <div class="h-flow">
+              <div class="h-flow-node" style="border-color:#3b82f6">Data Source<div class="h-label">1,000건</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#f97316">SplitInBatches<div class="h-label">50건씩 분할</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#22c55e">Process Batch<div class="h-label">50건 처리</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#8b5cf6">Wait 1s<div class="h-label">Rate Limit 방지</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#14b8a6">Loop Back<div class="h-label">다음 배치</div></div>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">SplitInBatches Node Settings</div>
+            <pre><code><span class="cm">// SplitInBatches 노드 설정</span>
+Batch Size: <span class="num">50</span>      <span class="cm">// 한 번에 처리할 항목 수</span>
+
+<span class="cm">// 사용 시나리오:</span>
+<span class="cm">// - API가 분당 100건 제한일 때 → 50건씩 + 1초 대기</span>
+<span class="cm">// - 이메일 발송 시 → 10건씩 + 5초 대기</span>
+<span class="cm">// - DB 입력 시 → 100건씩 배치 INSERT</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Pattern 3: Data Merge (여러 소스 합치기)</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">2개 이상의 데이터 소스를 하나로 합쳐 통합 처리합니다.</p>
+          <div class="card">
+            <div class="flow">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:100%;max-width:400px">
+                <div class="h-flow-node" style="border-color:#3b82f6">Google Sheets<div class="h-label">고객 목록</div></div>
+                <div class="h-flow-node" style="border-color:#f97316">Database<div class="h-label">주문 내역</div></div>
+              </div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node" style="border-color:#8b5cf6;max-width:400px">Merge Node<div class="label">Key: customer_id 기준으로 Join</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node" style="border-color:#22c55e;max-width:400px">Combined Data<div class="label">고객 정보 + 주문 내역 통합</div></div>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">Merge Node &#8212; Mode Options</div>
+            <pre><code><span class="cm">// Merge 모드 종류:</span>
+Append:       <span class="cm">// 두 데이터를 단순 이어붙이기</span>
+Combine:      <span class="cm">// 같은 위치 항목끼리 합치기</span>
+Merge By Key: <span class="cm">// 특정 필드(key) 기준으로 JOIN</span>
+
+<span class="cm">// 실무 활용:</span>
+<span class="cm">// Sheets의 고객 + DB의 주문 → customer_id로 Merge</span>
+<span class="cm">// CRM 데이터 + 이메일 로그 → email로 Merge</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Pattern 4: Scheduled Report</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">매일/매주 자동으로 리포트를 생성하여 이메일이나 Slack으로 전송합니다.</p>
+          <div class="card">
+            <div class="h-flow">
+              <div class="h-flow-node" style="border-color:#3b82f6">Cron Trigger<div class="h-label">매일 09:00</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#f97316">Collect Data<div class="h-label">어제의 데이터</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#8b5cf6">Aggregate<div class="h-label">합계/평균 계산</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#22c55e">Format Report<div class="h-label">HTML/텍스트</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#14b8a6">Send<div class="h-label">Email/Slack</div></div>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">Cron Expression Examples</div>
+            <pre><code><span class="cm">// Cron Trigger 설정 예시</span>
+<span class="str">0 9 * * *</span>      <span class="cm">// 매일 오전 9시</span>
+<span class="str">0 9 * * 1</span>      <span class="cm">// 매주 월요일 오전 9시</span>
+<span class="str">0 9 1 * *</span>      <span class="cm">// 매월 1일 오전 9시</span>
+<span class="str">*/30 * * * *</span>   <span class="cm">// 30분마다</span>
+<span class="str">0 */2 * * *</span>    <span class="cm">// 2시간마다</span>
+
+<span class="cm">// 주의: n8n Cron은 서버 시간 기준</span>
+<span class="cm">// GENERIC_TIMEZONE=Asia/Seoul 환경변수 필수!</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Pattern 5: AI-Powered Processing</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">OpenAI/Claude API를 연동하여 비정형 데이터를 구조화합니다.</p>
+          <div class="card">
+            <div class="h-flow">
+              <div class="h-flow-node" style="border-color:#3b82f6">Input<div class="h-label">비정형 텍스트</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#8b5cf6">AI Model<div class="h-label">GPT-4o / Claude</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#f97316">Parse JSON<div class="h-label">구조화 데이터</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#22c55e">Store<div class="h-label">DB / Sheets</div></div>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">AI System Prompt Template</div>
+            <pre><code><span class="cm">// 구조화 추출을 위한 System Prompt</span>
+<span class="str">"You are a data extraction assistant.
+Extract the following fields from the input text.
+Return JSON only, no explanation.
+
+Required fields:
+- category: string
+- sentiment: 'positive' | 'negative' | 'neutral'
+- key_topics: string[]
+- summary: string (max 100 chars)"</span>
+
+<span class="cm">// 핵심: response_format: { type: "json_object" } 설정</span>
+<span class="cm">// → AI가 반드시 valid JSON만 반환</span></code></pre>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> &#8212; 패턴을 익히면 새 워크플로우를 빠르게 만들 수 있습니다. 대부분의 자동화는 위 5가지 패턴의 조합입니다. 특히 Retry + Error Alert 패턴은 모든 프로덕션 워크플로우에 기본으로 포함하세요.
+        </div>
+      </section>
+
+      <!-- n8n Use Case Gallery -->
+      <section id="n8n-scenarios">
+        <h2 class="section-title">n8n Use Case Gallery</h2>
+
+        <div class="concept-box">
+          <h4>n8n으로 이런 것도 가능합니다</h4>
+          <p>실제 비즈니스에서 활용할 수 있는 n8n 자동화 시나리오 모음입니다. 각 카드의 노드 구성을 참고하여 자신만의 워크플로우를 만들어보세요.</p>
+        </div>
+
+        <div class="scenario-grid">
+          <div class="scenario-card" data-cat="data">
+            <div class="scenario-header">Data Collection</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">RSS Feed Monitoring</h4>
+              <p>관심 블로그/뉴스의 RSS 피드를 주기적으로 수집하여 Slack 채널에 자동 공유</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">Cron</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">RSS Feed</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Filter</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Slack</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="alert">
+            <div class="scenario-header">Monitoring & Alert</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">Website Uptime Monitor</h4>
+              <p>5분마다 웹사이트 상태를 체크하고, 다운 감지 시 즉시 알림 전송</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">Cron 5m</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">HTTP GET</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">IF 200?</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Alert</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="ai">
+            <div class="scenario-header">AI Automation</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">Customer Review Analysis</h4>
+              <p>새 리뷰 감지 시 AI로 감성 분석 후, 부정 리뷰는 담당자에게 즉시 에스컬레이션</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">Webhook</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">OpenAI</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">IF Neg?</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Email</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="ops">
+            <div class="scenario-header">DevOps</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">Deploy Notification</h4>
+              <p>GitHub Push/PR Merge 이벤트를 감지하여 Slack 채널에 배포 알림 전송</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">GitHub Trigger</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Format</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Slack</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="social">
+            <div class="scenario-header">Social Media</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">Cross-Platform Posting</h4>
+              <p>하나의 콘텐츠를 작성하면 Twitter, LinkedIn, Slack에 동시 게시</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">Webhook</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Twitter</span>
+                <span class="scenario-node-tag">LinkedIn</span>
+                <span class="scenario-node-tag">Slack</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="finance">
+            <div class="scenario-header">Finance</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">Invoice Auto-Processing</h4>
+              <p>이메일로 수신된 청구서 PDF를 AI로 읽고 회계 시스템에 자동 입력</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">Email Trigger</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">AI Extract</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Sheets</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="data">
+            <div class="scenario-header">Data Pipeline</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">Daily Sales Dashboard</h4>
+              <p>매일 아침 여러 소스에서 매출 데이터를 수집하여 대시보드 API로 제공</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">Cron 9AM</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">DB Query</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Merge</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Webhook Respond</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="ops">
+            <div class="scenario-header">IT Operations</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">SSL Certificate Monitor</h4>
+              <p>SSL 인증서 만료일을 주기적으로 체크하고, 30일 전부터 갱신 알림</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">Cron Daily</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">HTTP Check</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">IF &lt;30d</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Alert</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="scenario-card" data-cat="ai">
+            <div class="scenario-header">AI Content</div>
+            <div class="scenario-body">
+              <h4 style="font-size:14px;font-weight:600;margin-bottom:6px">Auto Blog Summarizer</h4>
+              <p>RSS 피드에서 새 글 감지 시 AI로 요약 생성 후 Notion에 자동 저장</p>
+              <div class="scenario-nodes">
+                <span class="scenario-node-tag">RSS</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Claude API</span>
+                <span class="scenario-arrow-tag">&rarr;</span>
+                <span class="scenario-node-tag">Notion</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>워크플로우 복잡도별 가이드</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Level</th><th>Nodes</th><th>Pattern</th><th>Example</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong style="color:#22c55e">Beginner</strong></td><td>2~4</td><td>Trigger &rarr; Action</td><td>RSS &rarr; Slack, Form &rarr; Sheets</td></tr>
+                <tr><td><strong style="color:#3b82f6">Intermediate</strong></td><td>5~8</td><td>Trigger &rarr; Process &rarr; Condition &rarr; Action</td><td>Webhook &rarr; AI &rarr; IF &rarr; Email/DB</td></tr>
+                <tr><td><strong style="color:#f97316">Advanced</strong></td><td>8~15</td><td>Multi-source Merge + Error Handling</td><td>Multi-API &rarr; Merge &rarr; Batch &rarr; Report</td></tr>
+                <tr><td><strong style="color:#ef4444">Expert</strong></td><td>15+</td><td>Sub-workflows + Loops + AI Chains</td><td>Multi-step AI Pipeline + Dashboard API</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> &#8212; n8n 자동화의 핵심은 "반복 작업을 발견하는 눈"입니다. 매일 같은 작업을 2번 이상 한다면, 그것은 자동화 대상입니다. 작은 워크플로우부터 시작해서 점점 복잡한 파이프라인으로 확장하세요.
         </div>
       </section>
 
