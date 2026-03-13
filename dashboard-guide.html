@@ -726,6 +726,526 @@
       color: var(--text-primary);
     }
 
+    /* Visual Comparison */
+    .vs-container {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      align-items: stretch;
+      margin: 1.25rem 0;
+    }
+
+    .vs-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .vs-panel.negative {
+      border-top: 3px solid #ef4444;
+    }
+
+    .vs-panel.positive {
+      border-top: 3px solid #22c55e;
+    }
+
+    .vs-panel h4 {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+    }
+
+    .vs-panel .vs-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px 0;
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .vs-panel .vs-icon {
+      flex-shrink: 0;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .vs-panel.negative .vs-icon {
+      background: #fef2f2;
+      color: #ef4444;
+    }
+
+    .vs-panel.positive .vs-icon {
+      background: #f0fdf4;
+      color: #22c55e;
+    }
+
+    .vs-divider {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+
+    .vs-divider span {
+      width: 40px;
+      height: 40px;
+      background: var(--text-primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    /* Stat Cards */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .stat-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+    }
+
+    .stat-number {
+      font-size: 28px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 4px;
+      font-weight: 500;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      margin-top: 6px;
+      opacity: 0.7;
+    }
+
+    /* Node Type Cards */
+    .node-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    .node-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .node-card:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .node-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+    }
+
+    .node-card[data-color="blue"]::before { background: #3b82f6; }
+    .node-card[data-color="green"]::before { background: #22c55e; }
+    .node-card[data-color="orange"]::before { background: #f97316; }
+    .node-card[data-color="purple"]::before { background: #8b5cf6; }
+    .node-card[data-color="red"]::before { background: #ef4444; }
+    .node-card[data-color="teal"]::before { background: #14b8a6; }
+
+    .node-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .node-card[data-color="blue"] .node-icon { background: #eff6ff; color: #3b82f6; }
+    .node-card[data-color="green"] .node-icon { background: #f0fdf4; color: #22c55e; }
+    .node-card[data-color="orange"] .node-icon { background: #fff7ed; color: #f97316; }
+    .node-card[data-color="purple"] .node-icon { background: #f5f3ff; color: #8b5cf6; }
+    .node-card[data-color="red"] .node-icon { background: #fef2f2; color: #ef4444; }
+    .node-card[data-color="teal"] .node-icon { background: #f0fdfa; color: #14b8a6; }
+
+    .node-card h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .node-card p {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Horizontal Flow */
+    .h-flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      padding: 1.5rem 0;
+      overflow-x: auto;
+      justify-content: center;
+    }
+
+    .h-flow-node {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1rem;
+      font-size: 12px;
+      font-weight: 500;
+      text-align: center;
+      min-width: 110px;
+      flex-shrink: 0;
+      transition: border-color 0.15s;
+    }
+
+    .h-flow-node:hover {
+      border-color: var(--accent);
+    }
+
+    .h-flow-node .h-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      margin-top: 3px;
+      font-weight: 400;
+    }
+
+    .h-flow-arrow {
+      width: 28px;
+      height: 1px;
+      background: var(--border);
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .h-flow-arrow::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: -3px;
+      width: 0;
+      height: 0;
+      border-top: 3.5px solid transparent;
+      border-bottom: 3.5px solid transparent;
+      border-left: 5px solid var(--border);
+    }
+
+    /* Concept Box */
+    .concept-box {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin: 1.25rem 0;
+      position: relative;
+    }
+
+    .concept-box h4 {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.01em;
+    }
+
+    .concept-box p {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+      margin-bottom: 0.5rem;
+    }
+
+    .concept-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    /* Visual Layers (Docker diagram) */
+    .layer-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin: 1.25rem 0;
+    }
+
+    .layer {
+      border: 1px solid var(--border);
+      padding: 0.85rem 1.25rem;
+      text-align: center;
+      font-size: 13px;
+      font-weight: 500;
+      position: relative;
+    }
+
+    .layer:first-child {
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .layer:last-child {
+      border-radius: 0 0 var(--radius) var(--radius);
+    }
+
+    .layer + .layer {
+      border-top: none;
+    }
+
+    .layer .layer-label {
+      font-size: 10px;
+      color: var(--text-secondary);
+      font-weight: 400;
+      display: block;
+      margin-top: 2px;
+    }
+
+    .layer[data-layer="app"] { background: #eff6ff; }
+    .layer[data-layer="container"] { background: #f0fdf4; }
+    .layer[data-layer="engine"] { background: #fefce8; }
+    .layer[data-layer="os"] { background: #faf5ff; }
+    .layer[data-layer="hw"] { background: #f1f5f9; }
+
+    /* Cost Bar */
+    .cost-bar-container {
+      margin: 1rem 0;
+    }
+
+    .cost-bar-item {
+      display: grid;
+      grid-template-columns: 120px 1fr 80px;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 0;
+    }
+
+    .cost-bar-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-primary);
+    }
+
+    .cost-bar-track {
+      height: 24px;
+      background: var(--border-light);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .cost-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.6s ease;
+    }
+
+    .cost-bar-value {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text-primary);
+      text-align: right;
+    }
+
+    /* Webhook Visual */
+    .webhook-visual {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      align-items: center;
+      margin: 1.25rem 0;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .webhook-side {
+      text-align: center;
+      padding: 1rem;
+    }
+
+    .webhook-side h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .webhook-side p {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .webhook-middle {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 0 1rem;
+    }
+
+    .webhook-arrow {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+
+    .webhook-arrow .arrow-line {
+      width: 40px;
+      height: 1px;
+      background: var(--accent);
+      position: relative;
+    }
+
+    .webhook-arrow .arrow-line::after {
+      content: '';
+      position: absolute;
+      right: -4px;
+      top: -3px;
+      width: 0;
+      height: 0;
+      border-top: 3.5px solid transparent;
+      border-bottom: 3.5px solid transparent;
+      border-left: 5px solid var(--accent);
+    }
+
+    .webhook-arrow.reverse .arrow-line::after {
+      right: auto;
+      left: -4px;
+      border-left: none;
+      border-right: 5px solid #22c55e;
+    }
+
+    .webhook-arrow.reverse .arrow-line {
+      background: #22c55e;
+    }
+
+    /* Numbered Steps Visual */
+    .numbered-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+      margin: 1.25rem 0;
+    }
+
+    .n-step {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+    }
+
+    .n-step-num {
+      width: 28px;
+      height: 28px;
+      background: var(--text-primary);
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .n-step h4 {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .n-step p {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+      .vs-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .vs-divider {
+        padding: 0.5rem 0;
+      }
+      .vs-divider span {
+        width: 32px;
+        height: 32px;
+        font-size: 10px;
+      }
+      .h-flow {
+        justify-content: flex-start;
+      }
+      .node-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .webhook-visual {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+      .webhook-middle {
+        flex-direction: row;
+        padding: 0;
+      }
+      .numbered-steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Print */
     @media print {
       .sidebar, .menu-toggle, .overlay { display: none !important; }
@@ -750,11 +1270,15 @@
         <span>Claude Code + Next.js + Vercel</span>
       </div>
       <ul class="sidebar-nav">
-        <li class="nav-group">Overview</li>
+        <li class="nav-group">Concepts</li>
+        <li><a href="#vibe-coding">Vibe Coding</a></li>
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#tools">Tool Comparison</a></li>
+        <li><a href="#n8n-concepts">n8n Core Concepts</a></li>
+        <li><a href="#api-webhook">API & Webhook</a></li>
         <li class="nav-group">n8n Hosting</li>
         <li><a href="#hosting-compare">Self vs Cloud</a></li>
+        <li><a href="#docker-concept">Docker Concept</a></li>
         <li><a href="#hosting-docker">Docker Self-Hosting</a></li>
         <li><a href="#receipt-ocr">Receipt OCR Workflow</a></li>
         <li class="nav-group">Dashboard Steps</li>
@@ -781,21 +1305,356 @@
         </div>
       </div>
 
+      <!-- Vibe Coding -->
+      <section id="vibe-coding">
+        <h2 class="section-title">Vibe Coding</h2>
+
+        <div class="concept-box">
+          <h4>Vibe Coding = AI에게 말로 지시하는 개발 방식</h4>
+          <p>코드를 직접 작성하는 대신, 원하는 결과를 자연어로 설명하면 AI가 코드를 생성합니다. 2025년 Andrej Karpathy가 처음 명명한 개념으로, 개발의 진입 장벽을 획기적으로 낮춥니다.</p>
+          <p>핵심은 <strong>"무엇을 만들지"</strong>에 집중하고, <strong>"어떻게 코딩할지"</strong>는 AI에게 맡기는 것입니다.</p>
+        </div>
+
+        <div class="substep">
+          <h4>Traditional Development vs Vibe Coding</h4>
+          <div class="vs-container">
+            <div class="vs-panel negative">
+              <h4>Traditional Development</h4>
+              <div class="vs-item"><div class="vs-icon">X</div><div>문법, 프레임워크, 라이브러리 학습 필요</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>에러 디버깅에 많은 시간 소요</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>환경 설정만으로 수 시간 소모</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>프로토타입까지 수일~수주 소요</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>기술 스택 변경 시 재학습 필요</div></div>
+            </div>
+            <div class="vs-divider"><span>VS</span></div>
+            <div class="vs-panel positive">
+              <h4>Vibe Coding</h4>
+              <div class="vs-item"><div class="vs-icon">O</div><div>자연어로 원하는 기능 설명하면 끝</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>AI가 코드 작성 + 에러 수정까지</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>환경 설정도 AI가 안내/자동화</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>프로토타입까지 수 분~수 시간</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>어떤 기술 스택이든 AI가 처리</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Vibe Coding 워크플로우</h4>
+          <div class="numbered-steps">
+            <div class="n-step">
+              <div class="n-step-num">1</div>
+              <h4>아이디어 정리</h4>
+              <p>무엇을 만들고 싶은지, 어떤 데이터를 다루는지 정리</p>
+            </div>
+            <div class="n-step">
+              <div class="n-step-num">2</div>
+              <h4>프롬프트 작성</h4>
+              <p>목적 + 데이터 구조 + 원하는 결과를 구체적으로 설명</p>
+            </div>
+            <div class="n-step">
+              <div class="n-step-num">3</div>
+              <h4>AI 코드 생성</h4>
+              <p>Claude Code가 전체 프로젝트 구조와 코드를 생성</p>
+            </div>
+            <div class="n-step">
+              <div class="n-step-num">4</div>
+              <h4>확인 및 피드백</h4>
+              <p>결과 확인 후 수정사항을 다시 자연어로 지시</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Vibe Coding에 필요한 핵심 역량</h4>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-number">70%</div>
+              <div class="stat-label">Prompt Engineering</div>
+              <div class="stat-sub">원하는 것을 명확히 설명하는 능력</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">20%</div>
+              <div class="stat-label">Domain Knowledge</div>
+              <div class="stat-sub">만들려는 것에 대한 이해</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">10%</div>
+              <div class="stat-label">Technical Basics</div>
+              <div class="stat-sub">결과물 검증을 위한 기초 지식</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> — Vibe Coding은 "코딩을 몰라도 된다"는 것이 아니라, "코딩 지식 없이도 시작할 수 있다"는 것입니다. 시작의 장벽을 낮추고, 필요한 지식은 만들면서 자연스럽게 습득하는 접근법입니다.
+        </div>
+      </section>
+
       <!-- Architecture -->
       <section id="architecture">
         <h2 class="section-title">Architecture</h2>
-        <div class="card">
-          <div class="flow">
-            <div class="flow-node">Data Sources<div class="label">Social Media / RSS / API / DB</div></div>
-            <div class="flow-arrow"></div>
-            <div class="flow-node">n8n Workflow<div class="label">Collect — Process — Store</div></div>
-            <div class="flow-arrow"></div>
-            <div class="flow-node">Webhook / API<div class="label">n8n HTTP Response Node</div></div>
-            <div class="flow-arrow"></div>
-            <div class="flow-node">Next.js Dashboard<div class="label">Realtime Charts + Tables</div></div>
-            <div class="flow-arrow"></div>
-            <div class="flow-node">Vercel Deploy<div class="label">Accessible from anywhere</div></div>
+
+        <div class="substep">
+          <h4>End-to-End Data Pipeline</h4>
+          <div class="card">
+            <div class="flow">
+              <div class="flow-node">Data Sources<div class="label">Social Media / RSS / API / DB</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">n8n Workflow<div class="label">Collect &mdash; Process &mdash; Store</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Webhook / API<div class="label">n8n HTTP Response Node</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Next.js Dashboard<div class="label">Realtime Charts + Tables</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Vercel Deploy<div class="label">Accessible from anywhere</div></div>
+            </div>
           </div>
+        </div>
+
+        <div class="substep">
+          <h4>각 계층의 역할</h4>
+          <div class="numbered-steps">
+            <div class="n-step">
+              <div class="n-step-num">1</div>
+              <h4>Data Layer</h4>
+              <p>n8n이 다양한 소스에서 데이터를 수집하고 JSON으로 정규화합니다</p>
+            </div>
+            <div class="n-step">
+              <div class="n-step-num">2</div>
+              <h4>API Layer</h4>
+              <p>n8n Webhook이 REST API 엔드포인트를 제공합니다. 별도 백엔드 불필요</p>
+            </div>
+            <div class="n-step">
+              <div class="n-step-num">3</div>
+              <h4>Presentation Layer</h4>
+              <p>Next.js + Recharts가 데이터를 차트와 테이블로 시각화합니다</p>
+            </div>
+            <div class="n-step">
+              <div class="n-step-num">4</div>
+              <h4>Deploy Layer</h4>
+              <p>Vercel이 Git Push 시 자동 빌드 + 배포합니다. CDN으로 글로벌 접근</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>기술 스택 요약</h4>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-number" style="font-size:20px">n8n</div>
+              <div class="stat-label">Data Pipeline</div>
+              <div class="stat-sub">수집 + API</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" style="font-size:20px">Claude Code</div>
+              <div class="stat-label">Vibe Coding</div>
+              <div class="stat-sub">코드 생성</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" style="font-size:20px">Next.js</div>
+              <div class="stat-label">Framework</div>
+              <div class="stat-sub">React + SSR</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" style="font-size:20px">Recharts</div>
+              <div class="stat-label">Visualization</div>
+              <div class="stat-sub">Chart Library</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" style="font-size:20px">Vercel</div>
+              <div class="stat-label">Deployment</div>
+              <div class="stat-sub">Auto Deploy</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> &#8212; 이 아키텍처의 핵심은 "각 도구가 가장 잘하는 일만 한다"는 것입니다. n8n은 데이터, Claude는 코드, Vercel은 배포. 단일 도구로 모든 것을 하려고 하지 않습니다.
+        </div>
+      </section>
+
+      <!-- n8n Concepts -->
+      <section id="n8n-concepts">
+        <h2 class="section-title">n8n Core Concepts</h2>
+
+        <div class="concept-box">
+          <h4>n8n = Node-based Workflow Automation</h4>
+          <p>n8n은 노드(Node)를 연결하여 자동화 워크플로우를 만드는 오픈소스 도구입니다. 각 노드는 하나의 작업을 담당하며, 이들을 연결하면 복잡한 자동화가 완성됩니다.</p>
+        </div>
+
+        <div class="substep">
+          <h4>핵심 노드 타입</h4>
+          <div class="node-grid">
+            <div class="node-card" data-color="blue">
+              <div class="node-icon">T</div>
+              <h4>Trigger Node</h4>
+              <p>워크플로우를 시작하는 노드. Webhook, Cron, 이벤트 감지 등</p>
+            </div>
+            <div class="node-card" data-color="green">
+              <div class="node-icon">A</div>
+              <h4>Action Node</h4>
+              <p>실제 작업을 수행. API 호출, DB 쿼리, 이메일 전송 등</p>
+            </div>
+            <div class="node-card" data-color="orange">
+              <div class="node-icon">F</div>
+              <h4>Function Node</h4>
+              <p>JavaScript로 데이터를 가공. JSON 변환, 필터링, 계산</p>
+            </div>
+            <div class="node-card" data-color="purple">
+              <div class="node-icon">C</div>
+              <h4>Condition Node</h4>
+              <p>조건 분기. IF/Switch로 데이터 흐름을 제어</p>
+            </div>
+            <div class="node-card" data-color="red">
+              <div class="node-icon">H</div>
+              <h4>HTTP Request</h4>
+              <p>외부 API와 통신. GET, POST, PUT, DELETE 요청</p>
+            </div>
+            <div class="node-card" data-color="teal">
+              <div class="node-icon">R</div>
+              <h4>Respond Node</h4>
+              <p>Webhook 응답 반환. API 엔드포인트의 응답 데이터 설정</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>n8n 워크플로우 실행 흐름</h4>
+          <div class="card">
+            <div class="h-flow">
+              <div class="h-flow-node" style="border-color:#3b82f6">Trigger<div class="h-label">시작점</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node">Input Data<div class="h-label">데이터 수신</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#f97316">Process<div class="h-label">가공/변환</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#8b5cf6">Condition<div class="h-label">분기 판단</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#22c55e">Action<div class="h-label">작업 수행</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#14b8a6">Output<div class="h-label">결과 반환</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>n8n vs Zapier vs Make 비교</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Feature</th><th>n8n</th><th>Zapier</th><th>Make</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>Open Source</strong></td><td style="color:#16a34a;font-weight:600">Yes</td><td>No</td><td>No</td></tr>
+                <tr><td><strong>Self-Hosting</strong></td><td style="color:#16a34a;font-weight:600">Yes</td><td>No</td><td>No</td></tr>
+                <tr><td><strong>Free Tier</strong></td><td>Unlimited (Self)</td><td>100 tasks/mo</td><td>1,000 ops/mo</td></tr>
+                <tr><td><strong>Code Node</strong></td><td style="color:#16a34a;font-weight:600">JavaScript/Python</td><td>Limited</td><td>Limited</td></tr>
+                <tr><td><strong>Complexity</strong></td><td>High (branches, loops)</td><td>Linear only</td><td>Medium</td></tr>
+                <tr><td><strong>Community Nodes</strong></td><td>400+</td><td>7,000+</td><td>1,500+</td></tr>
+                <tr><td><strong>Pricing</strong></td><td>Free (Self-Host)</td><td>$19.99/mo~</td><td>$9/mo~</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> — n8n의 최대 강점은 셀프 호스팅 시 실행 횟수 제한이 없다는 점입니다. 대량의 자동화를 무료로 운영할 수 있어, 스타트업과 개인 프로젝트에 최적입니다.
+        </div>
+      </section>
+
+      <!-- API & Webhook -->
+      <section id="api-webhook">
+        <h2 class="section-title">API & Webhook Concepts</h2>
+
+        <div class="concept-box">
+          <h4>API = Application Programming Interface</h4>
+          <p>서로 다른 소프트웨어가 데이터를 주고받는 규격화된 통신 방법입니다. 레스토랑에 비유하면, API는 주문서(메뉴)이고 데이터는 음식입니다. 정해진 형식(메뉴)으로 요청하면, 정해진 형식으로 응답이 옵니다.</p>
+        </div>
+
+        <div class="substep">
+          <h4>REST API 요청 방식</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Method</th><th>Purpose</th><th>Example</th><th>Analogy</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong style="color:#3b82f6">GET</strong></td><td>데이터 조회</td><td>/api/users</td><td>메뉴판 보기</td></tr>
+                <tr><td><strong style="color:#22c55e">POST</strong></td><td>데이터 생성</td><td>/api/users</td><td>새 주문하기</td></tr>
+                <tr><td><strong style="color:#f97316">PUT</strong></td><td>데이터 수정</td><td>/api/users/1</td><td>주문 변경하기</td></tr>
+                <tr><td><strong style="color:#ef4444">DELETE</strong></td><td>데이터 삭제</td><td>/api/users/1</td><td>주문 취소하기</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Polling vs Webhook</h4>
+          <div class="vs-container">
+            <div class="vs-panel negative">
+              <h4>Polling (Pull 방식)</h4>
+              <div class="vs-item"><div class="vs-icon">X</div><div>"새 데이터 있어?" 를 주기적으로 반복 질문</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>데이터가 없어도 계속 요청 (리소스 낭비)</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>실시간성이 떨어짐 (간격만큼 지연)</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>구현이 단순하고 안정적</div></div>
+            </div>
+            <div class="vs-divider"><span>VS</span></div>
+            <div class="vs-panel positive">
+              <h4>Webhook (Push 방식)</h4>
+              <div class="vs-item"><div class="vs-icon">O</div><div>이벤트 발생 시에만 알림이 옴</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>불필요한 요청 없음 (효율적)</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>거의 실시간 데이터 전달</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>수신 서버(엔드포인트) 필요</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Webhook 동작 원리</h4>
+          <div class="webhook-visual">
+            <div class="webhook-side">
+              <h4>n8n (Provider)</h4>
+              <p>데이터 수집 + 가공 후<br>Webhook URL로 전송</p>
+            </div>
+            <div class="webhook-middle">
+              <div class="webhook-arrow">
+                POST /webhook<div class="arrow-line"></div>
+              </div>
+              <div class="webhook-arrow reverse">
+                <div class="arrow-line"></div>200 OK + JSON
+              </div>
+            </div>
+            <div class="webhook-side">
+              <h4>Dashboard (Consumer)</h4>
+              <p>Webhook URL에서 대기<br>데이터 수신 + 화면 업데이트</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>JSON (JavaScript Object Notation)</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">API 통신에서 가장 많이 쓰이는 데이터 형식입니다. 사람이 읽을 수 있고, 기계도 쉽게 파싱할 수 있습니다.</p>
+          <div class="code-block">
+            <div class="code-header">JSON Example</div>
+            <pre><code>{
+  <span class="str">"name"</span>: <span class="str">"Dashboard API"</span>,     <span class="cm">// 문자열</span>
+  <span class="str">"version"</span>: <span class="num">2.1</span>,              <span class="cm">// 숫자</span>
+  <span class="str">"isActive"</span>: <span class="kw">true</span>,             <span class="cm">// Boolean</span>
+  <span class="str">"features"</span>: [                  <span class="cm">// 배열</span>
+    <span class="str">"realtime"</span>,
+    <span class="str">"charts"</span>,
+    <span class="str">"export"</span>
+  ],
+  <span class="str">"config"</span>: {                    <span class="cm">// 중첩 객체</span>
+    <span class="str">"refreshInterval"</span>: <span class="num">30000</span>,
+    <span class="str">"theme"</span>: <span class="str">"dark"</span>
+  }
+}</code></pre>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> — 이 가이드에서 n8n은 Webhook으로 API 엔드포인트를 만들고, 대시보드는 그 엔드포인트에서 JSON 데이터를 가져옵니다. 별도의 백엔드 서버 없이 n8n 자체가 API 서버 역할을 합니다.
         </div>
       </section>
 
@@ -908,8 +1767,190 @@
           </div>
         </div>
 
+        <div class="substep">
+          <h4>월별 비용 비교 (시각화)</h4>
+          <div class="card">
+            <div class="cost-bar-container">
+              <div class="cost-bar-item">
+                <div class="cost-bar-label">Self-Host</div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:5%;background:#22c55e"></div></div>
+                <div class="cost-bar-value" style="color:#22c55e">$0~20</div>
+              </div>
+              <div class="cost-bar-item">
+                <div class="cost-bar-label">n8n Starter</div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:12%;background:#3b82f6"></div></div>
+                <div class="cost-bar-value">$26/mo</div>
+              </div>
+              <div class="cost-bar-item">
+                <div class="cost-bar-label">n8n Pro</div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:30%;background:#f97316"></div></div>
+                <div class="cost-bar-value">$65/mo</div>
+              </div>
+              <div class="cost-bar-item">
+                <div class="cost-bar-label">Zapier Pro</div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:50%;background:#ef4444"></div></div>
+                <div class="cost-bar-value">$100/mo</div>
+              </div>
+              <div class="cost-bar-item">
+                <div class="cost-bar-label">n8n Business</div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:100%;background:#8b5cf6"></div></div>
+                <div class="cost-bar-value">$870/mo</div>
+              </div>
+            </div>
+            <p style="font-size:12px;color:var(--text-secondary);margin-top:0.75rem;text-align:center">* Self-Host 가격은 클라우드 서버 비용 기준 (Oracle Cloud 무료 ~ Hetzner 약 $4)</p>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>실행 횟수 비교</h4>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-number" style="color:#22c55e">Unlimited</div>
+              <div class="stat-label">Self-Hosting</div>
+              <div class="stat-sub">제한 없음</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">2,500</div>
+              <div class="stat-label">n8n Starter</div>
+              <div class="stat-sub">per month</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">10,000</div>
+              <div class="stat-label">n8n Pro</div>
+              <div class="stat-sub">per month</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number">40,000</div>
+              <div class="stat-label">n8n Business</div>
+              <div class="stat-sub">per month</div>
+            </div>
+          </div>
+        </div>
+
         <div class="insight">
           <strong>Core Insight</strong> — 이 가이드에서는 <strong>Docker Compose를 이용한 셀프 호스팅</strong>을 다룹니다. 비용 효율적이고, 학습 가치가 높으며, 모든 기능을 제한 없이 사용할 수 있기 때문입니다. 바로 아래에서 단계별로 설명합니다.
+        </div>
+      </section>
+
+      <!-- Docker Concept -->
+      <section id="docker-concept">
+        <h2 class="section-title">Docker Concepts</h2>
+
+        <div class="concept-box">
+          <h4>Docker = Application Containerization</h4>
+          <p>Docker는 애플리케이션과 그 실행 환경을 하나의 "컨테이너"로 패키징하는 기술입니다. 어떤 컴퓨터에서든 동일하게 실행됩니다. 배송에 비유하면, Docker 컨테이너는 규격화된 택배 상자이고, 안에 무엇이 들어있든 어디로든 동일하게 배달됩니다.</p>
+        </div>
+
+        <div class="substep">
+          <h4>VM vs Docker Container</h4>
+          <div class="vs-container">
+            <div class="vs-panel negative">
+              <h4>Virtual Machine (VM)</h4>
+              <div class="layer-stack">
+                <div class="layer" data-layer="app">App A</div>
+                <div class="layer" data-layer="os">Guest OS (Ubuntu)<span class="layer-label">Full OS per VM</span></div>
+                <div class="layer" data-layer="engine">Hypervisor<span class="layer-label">VMware / VirtualBox</span></div>
+                <div class="layer" data-layer="os">Host OS<span class="layer-label">Windows / macOS</span></div>
+                <div class="layer" data-layer="hw">Hardware</div>
+              </div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>각 VM마다 전체 OS 필요 (GB 단위)</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>부팅 시간: 수 분</div></div>
+              <div class="vs-item"><div class="vs-icon">X</div><div>메모리 사용량 큼</div></div>
+            </div>
+            <div class="vs-divider"><span>VS</span></div>
+            <div class="vs-panel positive">
+              <h4>Docker Container</h4>
+              <div class="layer-stack">
+                <div class="layer" data-layer="app">App A</div>
+                <div class="layer" data-layer="container">Container<span class="layer-label">Libraries + Dependencies</span></div>
+                <div class="layer" data-layer="engine">Docker Engine<span class="layer-label">Container Runtime</span></div>
+                <div class="layer" data-layer="os">Host OS<span class="layer-label">Kernel Shared</span></div>
+                <div class="layer" data-layer="hw">Hardware</div>
+              </div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>호스트 OS 커널 공유 (MB 단위)</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>시작 시간: 수 초</div></div>
+              <div class="vs-item"><div class="vs-icon">O</div><div>메모리 효율적</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Docker 핵심 용어</h4>
+          <div class="node-grid">
+            <div class="node-card" data-color="blue">
+              <div class="node-icon">I</div>
+              <h4>Image</h4>
+              <p>실행 가능한 패키지. 코드 + 런타임 + 설정 포함. 읽기 전용</p>
+            </div>
+            <div class="node-card" data-color="green">
+              <div class="node-icon">C</div>
+              <h4>Container</h4>
+              <p>Image의 실행 인스턴스. 독립된 환경에서 실행되는 프로세스</p>
+            </div>
+            <div class="node-card" data-color="orange">
+              <div class="node-icon">V</div>
+              <h4>Volume</h4>
+              <p>데이터 영속 저장소. 컨테이너 삭제해도 데이터 유지</p>
+            </div>
+            <div class="node-card" data-color="purple">
+              <div class="node-icon">N</div>
+              <h4>Network</h4>
+              <p>컨테이너 간 통신 채널. 격리된 내부 네트워크 구성</p>
+            </div>
+            <div class="node-card" data-color="red">
+              <div class="node-icon">D</div>
+              <h4>Dockerfile</h4>
+              <p>Image 빌드 레시피. 어떤 OS, 어떤 패키지, 어떤 설정인지 정의</p>
+            </div>
+            <div class="node-card" data-color="teal">
+              <div class="node-icon">DC</div>
+              <h4>Docker Compose</h4>
+              <p>여러 컨테이너를 한 번에 관리. YAML 파일로 멀티 서비스 정의</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Docker 기본 명령어</h4>
+          <div class="code-block">
+            <div class="code-header">bash</div>
+            <pre><code><span class="cm"># Image 다운로드</span>
+docker pull nginx              <span class="cm"># Docker Hub에서 이미지 받기</span>
+
+<span class="cm"># Container 실행</span>
+docker run -d -p 80:80 nginx   <span class="cm"># 백그라운드 실행, 포트 연결</span>
+
+<span class="cm"># 실행 중인 컨테이너 확인</span>
+docker ps                      <span class="cm"># 현재 실행 중인 목록</span>
+
+<span class="cm"># 컨테이너 중지/삭제</span>
+docker stop [container_id]     <span class="cm"># 중지</span>
+docker rm [container_id]       <span class="cm"># 삭제</span>
+
+<span class="cm"># Docker Compose (여러 컨테이너 한번에)</span>
+docker compose up -d           <span class="cm"># 모든 서비스 시작</span>
+docker compose down            <span class="cm"># 모든 서비스 중지</span>
+docker compose logs -f         <span class="cm"># 실시간 로그 확인</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>n8n Docker 아키텍처</h4>
+          <div class="card">
+            <div class="h-flow">
+              <div class="h-flow-node" style="border-color:#3b82f6">docker-compose.yml<div class="h-label">전체 설정 파일</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#22c55e">n8n Container<div class="h-label">Port 5678</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#f97316">PostgreSQL<div class="h-label">Data Storage</div></div>
+              <div class="h-flow-arrow"></div>
+              <div class="h-flow-node" style="border-color:#8b5cf6">Volumes<div class="h-label">Persistent Data</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight">
+          <strong>Core Insight</strong> — Docker를 사용하면 "내 컴퓨터에서는 되는데 서버에서는 안 돼요" 문제가 사라집니다. 동일한 Image를 사용하면 어디서든 동일하게 실행됩니다. n8n 셀프 호스팅에 Docker를 사용하는 이유입니다.
         </div>
       </section>
 
