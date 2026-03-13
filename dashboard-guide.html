@@ -7,28 +7,28 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #f8f9fa;
-      --bg-sidebar: #0f0f0f;
+      --bg-primary: #fafafa;
+      --bg-sidebar: #111111;
       --bg-card: #ffffff;
-      --text-primary: #111827;
-      --text-secondary: #6b7280;
-      --text-sidebar: #9ca3af;
-      --text-sidebar-active: #f3f4f6;
-      --border: #e5e7eb;
-      --border-light: #f3f4f6;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --accent-light: #eff6ff;
-      --accent-subtle: #dbeafe;
+      --text-primary: #171717;
+      --text-secondary: #737373;
+      --text-sidebar: #a3a3a3;
+      --text-sidebar-active: #fafafa;
+      --border: #e5e5e5;
+      --border-light: #f5f5f5;
+      --accent: #171717;
+      --accent-hover: #404040;
+      --accent-light: #fafafa;
+      --accent-subtle: #f5f5f5;
       --code-bg: #18181b;
       --code-text: #d4d4d8;
       --code-header-bg: #27272a;
-      --tag-bg: #f1f5f9;
-      --success: #059669;
-      --danger: #dc2626;
-      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
-      --shadow-md: 0 2px 8px rgba(0,0,0,0.06);
-      --radius: 10px;
+      --tag-bg: #f5f5f5;
+      --success: #171717;
+      --danger: #171717;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.03);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.05);
+      --radius: 8px;
       --radius-sm: 6px;
     }
 
@@ -120,8 +120,8 @@
 
     .sidebar-nav li a.active {
       color: #fff;
-      border-left-color: var(--accent);
-      background: rgba(37,99,235,0.08);
+      border-left-color: #fff;
+      background: rgba(255,255,255,0.06);
       font-weight: 500;
     }
 
@@ -165,8 +165,8 @@
     .hero .tagline {
       margin-top: 1.5rem;
       padding: 1rem 1.25rem;
-      background: var(--accent-light);
-      border-left: 3px solid var(--accent);
+      background: var(--border-light);
+      border-left: 2px solid var(--text-primary);
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       color: var(--text-secondary);
       font-size: 14px;
@@ -283,8 +283,8 @@
     }
 
     thead {
-      background: var(--text-primary);
-      color: #fff;
+      background: #262626;
+      color: #fafafa;
     }
 
     th {
@@ -360,8 +360,8 @@
 
     /* Insight Box */
     .insight {
-      border-left: 3px solid var(--accent);
-      background: var(--accent-light);
+      border-left: 2px solid var(--text-primary);
+      background: var(--border-light);
       padding: 1rem 1.25rem;
       border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
       margin: 1.25rem 0 1.5rem;
@@ -376,13 +376,14 @@
     }
 
     .insight a {
-      color: var(--accent);
-      text-decoration: none;
+      color: var(--text-primary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
       font-weight: 500;
     }
 
     .insight a:hover {
-      text-decoration: underline;
+      opacity: 0.7;
     }
 
     /* Step Badge */
@@ -744,11 +745,11 @@
     }
 
     .vs-panel.negative {
-      border-top: 3px solid #ef4444;
+      border-top: 2px solid #a3a3a3;
     }
 
     .vs-panel.positive {
-      border-top: 3px solid #22c55e;
+      border-top: 2px solid #171717;
     }
 
     .vs-panel h4 {
@@ -782,13 +783,13 @@
     }
 
     .vs-panel.negative .vs-icon {
-      background: #fef2f2;
-      color: #ef4444;
+      background: #f5f5f5;
+      color: #737373;
     }
 
     .vs-panel.positive .vs-icon {
-      background: #f0fdf4;
-      color: #22c55e;
+      background: #f5f5f5;
+      color: #171717;
     }
 
     .vs-divider {
@@ -838,7 +839,7 @@
     .stat-number {
       font-size: 28px;
       font-weight: 700;
-      color: var(--accent);
+      color: var(--text-primary);
       line-height: 1.2;
       letter-spacing: -0.03em;
     }
@@ -888,15 +889,13 @@
       top: 0;
       left: 0;
       right: 0;
-      height: 3px;
+      height: 2px;
+      background: #d4d4d4;
     }
 
-    .node-card[data-color="blue"]::before { background: #3b82f6; }
-    .node-card[data-color="green"]::before { background: #22c55e; }
-    .node-card[data-color="orange"]::before { background: #f97316; }
-    .node-card[data-color="purple"]::before { background: #8b5cf6; }
-    .node-card[data-color="red"]::before { background: #ef4444; }
-    .node-card[data-color="teal"]::before { background: #14b8a6; }
+    .node-card:hover::before {
+      background: var(--text-primary);
+    }
 
     .node-icon {
       width: 36px;
@@ -905,17 +904,13 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      font-size: 14px;
       margin-bottom: 10px;
       font-weight: 600;
+      background: #f5f5f5;
+      color: #404040;
+      font-family: 'JetBrains Mono', monospace;
     }
-
-    .node-card[data-color="blue"] .node-icon { background: #eff6ff; color: #3b82f6; }
-    .node-card[data-color="green"] .node-icon { background: #f0fdf4; color: #22c55e; }
-    .node-card[data-color="orange"] .node-icon { background: #fff7ed; color: #f97316; }
-    .node-card[data-color="purple"] .node-icon { background: #f5f3ff; color: #8b5cf6; }
-    .node-card[data-color="red"] .node-icon { background: #fef2f2; color: #ef4444; }
-    .node-card[data-color="teal"] .node-icon { background: #f0fdfa; color: #14b8a6; }
 
     .node-card h4 {
       font-size: 14px;
@@ -985,7 +980,7 @@
 
     /* Concept Box */
     .concept-box {
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      background: #fafafa;
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 2rem;
@@ -1048,11 +1043,11 @@
       margin-top: 2px;
     }
 
-    .layer[data-layer="app"] { background: #eff6ff; }
-    .layer[data-layer="container"] { background: #f0fdf4; }
-    .layer[data-layer="engine"] { background: #fefce8; }
-    .layer[data-layer="os"] { background: #faf5ff; }
-    .layer[data-layer="hw"] { background: #f1f5f9; }
+    .layer[data-layer="app"] { background: #fafafa; }
+    .layer[data-layer="container"] { background: #f5f5f5; }
+    .layer[data-layer="engine"] { background: #e5e5e5; }
+    .layer[data-layer="os"] { background: #d4d4d4; }
+    .layer[data-layer="hw"] { background: #a3a3a3; color: #fff; }
 
     /* Cost Bar */
     .cost-bar-container {
@@ -1144,7 +1139,7 @@
     .webhook-arrow .arrow-line {
       width: 40px;
       height: 1px;
-      background: var(--accent);
+      background: #404040;
       position: relative;
     }
 
@@ -1157,18 +1152,18 @@
       height: 0;
       border-top: 3.5px solid transparent;
       border-bottom: 3.5px solid transparent;
-      border-left: 5px solid var(--accent);
+      border-left: 5px solid #404040;
     }
 
     .webhook-arrow.reverse .arrow-line::after {
       right: auto;
       left: -4px;
       border-left: none;
-      border-right: 5px solid #22c55e;
+      border-right: 5px solid #737373;
     }
 
     .webhook-arrow.reverse .arrow-line {
-      background: #22c55e;
+      background: #737373;
     }
 
     /* Numbered Steps Visual */
@@ -1244,8 +1239,8 @@
       left: 16px;
       width: 24px;
       height: 24px;
-      background: var(--accent);
-      color: #fff;
+      background: #262626;
+      color: #fafafa;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -1286,13 +1281,14 @@
     }
 
     .do-box {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
+      background: #fafafa;
+      border: 1px solid #d4d4d4;
     }
 
     .dont-box {
-      background: #fef2f2;
-      border: 1px solid #fecaca;
+      background: #fafafa;
+      border: 1px solid #d4d4d4;
+      border-left: 3px solid #a3a3a3;
     }
 
     .do-box h4, .dont-box h4 {
@@ -1301,8 +1297,8 @@
       margin-bottom: 8px;
     }
 
-    .do-box h4 { color: #16a34a; }
-    .dont-box h4 { color: #dc2626; }
+    .do-box h4 { color: #171717; }
+    .dont-box h4 { color: #737373; }
 
     .do-box p, .dont-box p {
       color: var(--text-secondary);
@@ -1313,14 +1309,14 @@
     .kbd {
       display: inline-block;
       padding: 2px 7px;
-      background: #f1f5f9;
-      border: 1px solid #d1d5db;
+      background: #f5f5f5;
+      border: 1px solid #d4d4d4;
       border-radius: 4px;
       font-family: 'JetBrains Mono', monospace;
       font-size: 11px;
       font-weight: 500;
       color: var(--text-primary);
-      box-shadow: 0 1px 0 #d1d5db;
+      box-shadow: 0 1px 0 #d4d4d4;
       line-height: 1.6;
     }
 
@@ -1353,12 +1349,12 @@
       color: #fff;
     }
 
-    .scenario-card[data-cat="data"] .scenario-header { background: #3b82f6; }
-    .scenario-card[data-cat="alert"] .scenario-header { background: #ef4444; }
-    .scenario-card[data-cat="ai"] .scenario-header { background: #8b5cf6; }
-    .scenario-card[data-cat="ops"] .scenario-header { background: #f97316; }
-    .scenario-card[data-cat="social"] .scenario-header { background: #ec4899; }
-    .scenario-card[data-cat="finance"] .scenario-header { background: #14b8a6; }
+    .scenario-card[data-cat="data"] .scenario-header { background: #171717; }
+    .scenario-card[data-cat="alert"] .scenario-header { background: #262626; }
+    .scenario-card[data-cat="ai"] .scenario-header { background: #404040; }
+    .scenario-card[data-cat="ops"] .scenario-header { background: #525252; }
+    .scenario-card[data-cat="social"] .scenario-header { background: #171717; }
+    .scenario-card[data-cat="finance"] .scenario-header { background: #262626; }
 
     .scenario-body {
       padding: 1rem 1.25rem;
@@ -1666,6 +1662,24 @@
         </div>
       </section>
 
+      <!-- Tools -->
+      <section id="tools">
+        <h2 class="section-title">Tool Comparison</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr><th>Tool</th><th>Role</th><th>Key Advantage</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>n8n</strong></td><td>Data Pipeline</td><td>No-code complex collection automation</td></tr>
+              <tr><td><strong>Claude Code</strong></td><td>Dashboard Dev</td><td>Describe in words, get working code</td></tr>
+              <tr><td><strong>Next.js</strong></td><td>Frontend Framework</td><td>Built-in API Routes + SSR</td></tr>
+              <tr><td><strong>Vercel</strong></td><td>Deploy Platform</td><td>Auto deploy on git push</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <!-- n8n Concepts -->
       <section id="n8n-concepts">
         <h2 class="section-title">n8n Core Concepts</h2>
@@ -1715,17 +1729,17 @@
           <h4>n8n 워크플로우 실행 흐름</h4>
           <div class="card">
             <div class="h-flow">
-              <div class="h-flow-node" style="border-color:#3b82f6">Trigger<div class="h-label">시작점</div></div>
+              <div class="h-flow-node" style="border-color:#404040">Trigger<div class="h-label">시작점</div></div>
               <div class="h-flow-arrow"></div>
               <div class="h-flow-node">Input Data<div class="h-label">데이터 수신</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#f97316">Process<div class="h-label">가공/변환</div></div>
+              <div class="h-flow-node" style="border-color:#737373">Process<div class="h-label">가공/변환</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#8b5cf6">Condition<div class="h-label">분기 판단</div></div>
+              <div class="h-flow-node" style="border-color:#a3a3a3">Condition<div class="h-label">분기 판단</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#22c55e">Action<div class="h-label">작업 수행</div></div>
+              <div class="h-flow-node" style="border-color:#525252">Action<div class="h-label">작업 수행</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#14b8a6">Output<div class="h-label">결과 반환</div></div>
+              <div class="h-flow-node" style="border-color:#d4d4d4">Output<div class="h-label">결과 반환</div></div>
             </div>
           </div>
         </div>
@@ -1738,10 +1752,10 @@
                 <tr><th>Feature</th><th>n8n</th><th>Zapier</th><th>Make</th></tr>
               </thead>
               <tbody>
-                <tr><td><strong>Open Source</strong></td><td style="color:#16a34a;font-weight:600">Yes</td><td>No</td><td>No</td></tr>
-                <tr><td><strong>Self-Hosting</strong></td><td style="color:#16a34a;font-weight:600">Yes</td><td>No</td><td>No</td></tr>
+                <tr><td><strong>Open Source</strong></td><td style="font-weight:600">Yes</td><td>No</td><td>No</td></tr>
+                <tr><td><strong>Self-Hosting</strong></td><td style="font-weight:600">Yes</td><td>No</td><td>No</td></tr>
                 <tr><td><strong>Free Tier</strong></td><td>Unlimited (Self)</td><td>100 tasks/mo</td><td>1,000 ops/mo</td></tr>
-                <tr><td><strong>Code Node</strong></td><td style="color:#16a34a;font-weight:600">JavaScript/Python</td><td>Limited</td><td>Limited</td></tr>
+                <tr><td><strong>Code Node</strong></td><td style="font-weight:600">JavaScript/Python</td><td>Limited</td><td>Limited</td></tr>
                 <tr><td><strong>Complexity</strong></td><td>High (branches, loops)</td><td>Linear only</td><td>Medium</td></tr>
                 <tr><td><strong>Community Nodes</strong></td><td>400+</td><td>7,000+</td><td>1,500+</td></tr>
                 <tr><td><strong>Pricing</strong></td><td>Free (Self-Host)</td><td>$19.99/mo~</td><td>$9/mo~</td></tr>
@@ -1772,10 +1786,10 @@
                 <tr><th>Method</th><th>Purpose</th><th>Example</th><th>Analogy</th></tr>
               </thead>
               <tbody>
-                <tr><td><strong style="color:#3b82f6">GET</strong></td><td>데이터 조회</td><td>/api/users</td><td>메뉴판 보기</td></tr>
-                <tr><td><strong style="color:#22c55e">POST</strong></td><td>데이터 생성</td><td>/api/users</td><td>새 주문하기</td></tr>
-                <tr><td><strong style="color:#f97316">PUT</strong></td><td>데이터 수정</td><td>/api/users/1</td><td>주문 변경하기</td></tr>
-                <tr><td><strong style="color:#ef4444">DELETE</strong></td><td>데이터 삭제</td><td>/api/users/1</td><td>주문 취소하기</td></tr>
+                <tr><td><strong>GET</strong></td><td>데이터 조회</td><td>/api/users</td><td>메뉴판 보기</td></tr>
+                <tr><td><strong>POST</strong></td><td>데이터 생성</td><td>/api/users</td><td>새 주문하기</td></tr>
+                <tr><td><strong>PUT</strong></td><td>데이터 수정</td><td>/api/users/1</td><td>주문 변경하기</td></tr>
+                <tr><td><strong>DELETE</strong></td><td>데이터 삭제</td><td>/api/users/1</td><td>주문 취소하기</td></tr>
               </tbody>
             </table>
           </div>
@@ -1848,24 +1862,6 @@
 
         <div class="insight">
           <strong>Core Insight</strong> — 이 가이드에서 n8n은 Webhook으로 API 엔드포인트를 만들고, 대시보드는 그 엔드포인트에서 JSON 데이터를 가져옵니다. 별도의 백엔드 서버 없이 n8n 자체가 API 서버 역할을 합니다.
-        </div>
-      </section>
-
-      <!-- Tools -->
-      <section id="tools">
-        <h2 class="section-title">Tool Comparison</h2>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr><th>Tool</th><th>Role</th><th>Key Advantage</th></tr>
-            </thead>
-            <tbody>
-              <tr><td><strong>n8n</strong></td><td>Data Pipeline</td><td>No-code complex collection automation</td></tr>
-              <tr><td><strong>Claude Code</strong></td><td>Dashboard Dev</td><td>Describe in words, get working code</td></tr>
-              <tr><td><strong>Next.js</strong></td><td>Frontend Framework</td><td>Built-in API Routes + SSR</td></tr>
-              <tr><td><strong>Vercel</strong></td><td>Deploy Platform</td><td>Auto deploy on git push</td></tr>
-            </tbody>
-          </table>
         </div>
       </section>
 
@@ -1950,7 +1946,7 @@
                 <tr><th>Method</th><th>Difficulty</th><th>Best For</th><th>Production</th></tr>
               </thead>
               <tbody>
-                <tr><td><strong>Docker Compose</strong></td><td>중간</td><td>프로덕션 배포</td><td style="color:#16a34a;font-weight:600">추천</td></tr>
+                <tr><td><strong>Docker Compose</strong></td><td>중간</td><td>프로덕션 배포</td><td style="font-weight:600">추천</td></tr>
                 <tr><td><strong>Docker (단일)</strong></td><td>낮음</td><td>빠른 테스트</td><td>가능</td></tr>
                 <tr><td><strong>npm 설치</strong></td><td>낮음</td><td>로컬 개발/테스트</td><td>비추천</td></tr>
                 <tr><td><strong>Railway</strong></td><td>매우 낮음</td><td>빠른 배포</td><td>가능 ($5 크레딧)</td></tr>
@@ -1966,27 +1962,27 @@
             <div class="cost-bar-container">
               <div class="cost-bar-item">
                 <div class="cost-bar-label">Self-Host</div>
-                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:5%;background:#22c55e"></div></div>
-                <div class="cost-bar-value" style="color:#22c55e">$0~20</div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:5%;background:#171717"></div></div>
+                <div class="cost-bar-value">$0~20</div>
               </div>
               <div class="cost-bar-item">
                 <div class="cost-bar-label">n8n Starter</div>
-                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:12%;background:#3b82f6"></div></div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:12%;background:#404040"></div></div>
                 <div class="cost-bar-value">$26/mo</div>
               </div>
               <div class="cost-bar-item">
                 <div class="cost-bar-label">n8n Pro</div>
-                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:30%;background:#f97316"></div></div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:30%;background:#525252"></div></div>
                 <div class="cost-bar-value">$65/mo</div>
               </div>
               <div class="cost-bar-item">
                 <div class="cost-bar-label">Zapier Pro</div>
-                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:50%;background:#ef4444"></div></div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:50%;background:#737373"></div></div>
                 <div class="cost-bar-value">$100/mo</div>
               </div>
               <div class="cost-bar-item">
                 <div class="cost-bar-label">n8n Business</div>
-                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:100%;background:#8b5cf6"></div></div>
+                <div class="cost-bar-track"><div class="cost-bar-fill" style="width:100%;background:#a3a3a3"></div></div>
                 <div class="cost-bar-value">$870/mo</div>
               </div>
             </div>
@@ -1998,7 +1994,7 @@
           <h4>실행 횟수 비교</h4>
           <div class="stat-grid">
             <div class="stat-card">
-              <div class="stat-number" style="color:#22c55e">Unlimited</div>
+              <div class="stat-number">Unlimited</div>
               <div class="stat-label">Self-Hosting</div>
               <div class="stat-sub">제한 없음</div>
             </div>
@@ -2131,13 +2127,13 @@ docker compose logs -f         <span class="cm"># 실시간 로그 확인</span>
           <h4>n8n Docker 아키텍처</h4>
           <div class="card">
             <div class="h-flow">
-              <div class="h-flow-node" style="border-color:#3b82f6">docker-compose.yml<div class="h-label">전체 설정 파일</div></div>
+              <div class="h-flow-node" style="border-color:#404040">docker-compose.yml<div class="h-label">전체 설정 파일</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#22c55e">n8n Container<div class="h-label">Port 5678</div></div>
+              <div class="h-flow-node" style="border-color:#525252">n8n Container<div class="h-label">Port 5678</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#f97316">PostgreSQL<div class="h-label">Data Storage</div></div>
+              <div class="h-flow-node" style="border-color:#737373">PostgreSQL<div class="h-label">Data Storage</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#8b5cf6">Volumes<div class="h-label">Persistent Data</div></div>
+              <div class="h-flow-node" style="border-color:#a3a3a3">Volumes<div class="h-label">Persistent Data</div></div>
             </div>
           </div>
         </div>
@@ -2516,7 +2512,7 @@ docker compose logs -f n8n
           </div>
 
           <div class="insight">
-            <strong>업데이트 전 반드시 백업!</strong> — Breaking changes가 있을 수 있으므로, <a href="https://github.com/n8n-io/n8n/releases" style="color:var(--accent)" target="_blank">n8n Release Notes</a>에서 변경사항을 먼저 확인하세요.
+            <strong>업데이트 전 반드시 백업!</strong> — Breaking changes가 있을 수 있으므로, <a href="https://github.com/n8n-io/n8n/releases" style="color:var(--text-primary);text-decoration:underline" target="_blank">n8n Release Notes</a>에서 변경사항을 먼저 확인하세요.
           </div>
         </div>
 
@@ -2841,12 +2837,12 @@ https://drive.google.com/uc?export=view&amp;id={{$json["id"]}}</code></pre>
                 </thead>
                 <tbody>
                   <tr>
-                    <td style="color:#dc2626;font-weight:700">Wrong</td>
+                    <td style="font-weight:700">Wrong</td>
                     <td><code>https://drive.google.com/file/d/FILE_ID/view</code></td>
                     <td>뷰어 페이지 — OpenAI에서 이미지 접근 불가</td>
                   </tr>
                   <tr>
-                    <td style="color:#16a34a;font-weight:700">Correct</td>
+                    <td style="font-weight:700">Correct</td>
                     <td><code>https://drive.google.com/uc?export=view&amp;id=FILE_ID</code></td>
                     <td>직접 이미지 URL — OpenAI Vision에서 정상 접근</td>
                   </tr>
@@ -3025,21 +3021,21 @@ https://drive.google.com/uc?export=view&amp;id={{$json["id"]}}</code></pre>
           <p style="color:var(--text-secondary);margin-bottom:1rem">외부 API 호출 실패 시 자동 재시도하고, 최종 실패 시 대체 동작을 수행합니다.</p>
           <div class="card">
             <div class="h-flow">
-              <div class="h-flow-node" style="border-color:#3b82f6">Trigger<div class="h-label">시작</div></div>
+              <div class="h-flow-node" style="border-color:#404040">Trigger<div class="h-label">시작</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#f97316">HTTP Request<div class="h-label">Retry: 3회</div></div>
+              <div class="h-flow-node" style="border-color:#737373">HTTP Request<div class="h-label">Retry: 3회</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#8b5cf6">IF (Success?)<div class="h-label">상태 코드 확인</div></div>
+              <div class="h-flow-node" style="border-color:#a3a3a3">IF (Success?)<div class="h-label">상태 코드 확인</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#22c55e">Process Data<div class="h-label">정상 처리</div></div>
+              <div class="h-flow-node" style="border-color:#525252">Process Data<div class="h-label">정상 처리</div></div>
             </div>
             <div style="text-align:center;margin:0.5rem 0">
               <span style="font-size:11px;color:var(--text-secondary)">IF 실패 시 &#8595;</span>
             </div>
             <div class="h-flow">
-              <div class="h-flow-node" style="border-color:#ef4444">Error Log<div class="h-label">에러 기록</div></div>
+              <div class="h-flow-node" style="border-color:#737373">Error Log<div class="h-label">에러 기록</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#ef4444">Slack Alert<div class="h-label">팀 알림</div></div>
+              <div class="h-flow-node" style="border-color:#737373">Slack Alert<div class="h-label">팀 알림</div></div>
             </div>
           </div>
           <div class="code-block">
@@ -3057,15 +3053,15 @@ Wait Between Tries (ms): <span class="num">2000</span>
           <p style="color:var(--text-secondary);margin-bottom:1rem">대량 데이터를 일정 단위로 나눠 처리합니다. API Rate Limit 회피에 필수입니다.</p>
           <div class="card">
             <div class="h-flow">
-              <div class="h-flow-node" style="border-color:#3b82f6">Data Source<div class="h-label">1,000건</div></div>
+              <div class="h-flow-node" style="border-color:#404040">Data Source<div class="h-label">1,000건</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#f97316">SplitInBatches<div class="h-label">50건씩 분할</div></div>
+              <div class="h-flow-node" style="border-color:#737373">SplitInBatches<div class="h-label">50건씩 분할</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#22c55e">Process Batch<div class="h-label">50건 처리</div></div>
+              <div class="h-flow-node" style="border-color:#525252">Process Batch<div class="h-label">50건 처리</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#8b5cf6">Wait 1s<div class="h-label">Rate Limit 방지</div></div>
+              <div class="h-flow-node" style="border-color:#a3a3a3">Wait 1s<div class="h-label">Rate Limit 방지</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#14b8a6">Loop Back<div class="h-label">다음 배치</div></div>
+              <div class="h-flow-node" style="border-color:#d4d4d4">Loop Back<div class="h-label">다음 배치</div></div>
             </div>
           </div>
           <div class="code-block">
@@ -3086,13 +3082,13 @@ Batch Size: <span class="num">50</span>      <span class="cm">// 한 번에 처�
           <div class="card">
             <div class="flow">
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;width:100%;max-width:400px">
-                <div class="h-flow-node" style="border-color:#3b82f6">Google Sheets<div class="h-label">고객 목록</div></div>
-                <div class="h-flow-node" style="border-color:#f97316">Database<div class="h-label">주문 내역</div></div>
+                <div class="h-flow-node" style="border-color:#404040">Google Sheets<div class="h-label">고객 목록</div></div>
+                <div class="h-flow-node" style="border-color:#737373">Database<div class="h-label">주문 내역</div></div>
               </div>
               <div class="flow-arrow"></div>
-              <div class="flow-node" style="border-color:#8b5cf6;max-width:400px">Merge Node<div class="label">Key: customer_id 기준으로 Join</div></div>
+              <div class="flow-node" style="border-color:#a3a3a3;max-width:400px">Merge Node<div class="label">Key: customer_id 기준으로 Join</div></div>
               <div class="flow-arrow"></div>
-              <div class="flow-node" style="border-color:#22c55e;max-width:400px">Combined Data<div class="label">고객 정보 + 주문 내역 통합</div></div>
+              <div class="flow-node" style="border-color:#525252;max-width:400px">Combined Data<div class="label">고객 정보 + 주문 내역 통합</div></div>
             </div>
           </div>
           <div class="code-block">
@@ -3113,15 +3109,15 @@ Merge By Key: <span class="cm">// 특정 필드(key) 기준으로 JOIN</span>
           <p style="color:var(--text-secondary);margin-bottom:1rem">매일/매주 자동으로 리포트를 생성하여 이메일이나 Slack으로 전송합니다.</p>
           <div class="card">
             <div class="h-flow">
-              <div class="h-flow-node" style="border-color:#3b82f6">Cron Trigger<div class="h-label">매일 09:00</div></div>
+              <div class="h-flow-node" style="border-color:#404040">Cron Trigger<div class="h-label">매일 09:00</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#f97316">Collect Data<div class="h-label">어제의 데이터</div></div>
+              <div class="h-flow-node" style="border-color:#737373">Collect Data<div class="h-label">어제의 데이터</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#8b5cf6">Aggregate<div class="h-label">합계/평균 계산</div></div>
+              <div class="h-flow-node" style="border-color:#a3a3a3">Aggregate<div class="h-label">합계/평균 계산</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#22c55e">Format Report<div class="h-label">HTML/텍스트</div></div>
+              <div class="h-flow-node" style="border-color:#525252">Format Report<div class="h-label">HTML/텍스트</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#14b8a6">Send<div class="h-label">Email/Slack</div></div>
+              <div class="h-flow-node" style="border-color:#d4d4d4">Send<div class="h-label">Email/Slack</div></div>
             </div>
           </div>
           <div class="code-block">
@@ -3143,13 +3139,13 @@ Merge By Key: <span class="cm">// 특정 필드(key) 기준으로 JOIN</span>
           <p style="color:var(--text-secondary);margin-bottom:1rem">OpenAI/Claude API를 연동하여 비정형 데이터를 구조화합니다.</p>
           <div class="card">
             <div class="h-flow">
-              <div class="h-flow-node" style="border-color:#3b82f6">Input<div class="h-label">비정형 텍스트</div></div>
+              <div class="h-flow-node" style="border-color:#404040">Input<div class="h-label">비정형 텍스트</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#8b5cf6">AI Model<div class="h-label">GPT-4o / Claude</div></div>
+              <div class="h-flow-node" style="border-color:#a3a3a3">AI Model<div class="h-label">GPT-4o / Claude</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#f97316">Parse JSON<div class="h-label">구조화 데이터</div></div>
+              <div class="h-flow-node" style="border-color:#737373">Parse JSON<div class="h-label">구조화 데이터</div></div>
               <div class="h-flow-arrow"></div>
-              <div class="h-flow-node" style="border-color:#22c55e">Store<div class="h-label">DB / Sheets</div></div>
+              <div class="h-flow-node" style="border-color:#525252">Store<div class="h-label">DB / Sheets</div></div>
             </div>
           </div>
           <div class="code-block">
@@ -3339,10 +3335,10 @@ Required fields:
                 <tr><th>Level</th><th>Nodes</th><th>Pattern</th><th>Example</th></tr>
               </thead>
               <tbody>
-                <tr><td><strong style="color:#22c55e">Beginner</strong></td><td>2~4</td><td>Trigger &rarr; Action</td><td>RSS &rarr; Slack, Form &rarr; Sheets</td></tr>
-                <tr><td><strong style="color:#3b82f6">Intermediate</strong></td><td>5~8</td><td>Trigger &rarr; Process &rarr; Condition &rarr; Action</td><td>Webhook &rarr; AI &rarr; IF &rarr; Email/DB</td></tr>
-                <tr><td><strong style="color:#f97316">Advanced</strong></td><td>8~15</td><td>Multi-source Merge + Error Handling</td><td>Multi-API &rarr; Merge &rarr; Batch &rarr; Report</td></tr>
-                <tr><td><strong style="color:#ef4444">Expert</strong></td><td>15+</td><td>Sub-workflows + Loops + AI Chains</td><td>Multi-step AI Pipeline + Dashboard API</td></tr>
+                <tr><td><strong>Beginner</strong></td><td>2~4</td><td>Trigger &rarr; Action</td><td>RSS &rarr; Slack, Form &rarr; Sheets</td></tr>
+                <tr><td><strong>Intermediate</strong></td><td>5~8</td><td>Trigger &rarr; Process &rarr; Condition &rarr; Action</td><td>Webhook &rarr; AI &rarr; IF &rarr; Email/DB</td></tr>
+                <tr><td><strong>Advanced</strong></td><td>8~15</td><td>Multi-source Merge + Error Handling</td><td>Multi-API &rarr; Merge &rarr; Batch &rarr; Report</td></tr>
+                <tr><td><strong>Expert</strong></td><td>15+</td><td>Sub-workflows + Loops + AI Chains</td><td>Multi-step AI Pipeline + Dashboard API</td></tr>
               </tbody>
             </table>
           </div>
