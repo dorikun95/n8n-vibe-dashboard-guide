@@ -753,10 +753,11 @@
         <li class="nav-group">Overview</li>
         <li><a href="#architecture">Architecture</a></li>
         <li><a href="#tools">Tool Comparison</a></li>
-        <li class="nav-group">Hosting</li>
+        <li class="nav-group">n8n Hosting</li>
         <li><a href="#hosting-compare">Self vs Cloud</a></li>
         <li><a href="#hosting-docker">Docker Self-Hosting</a></li>
-        <li class="nav-group">Steps</li>
+        <li><a href="#receipt-ocr">Receipt OCR Workflow</a></li>
+        <li class="nav-group">Dashboard Steps</li>
         <li><a href="#step1">1. n8n Workflow</a></li>
         <li><a href="#step2">2. Environment Setup</a></li>
         <li><a href="#step3">3. Vibe Coding</a></li>
@@ -764,8 +765,6 @@
         <li><a href="#step5">5. Vercel Deploy</a></li>
         <li><a href="#step6">6. Realtime Integration</a></li>
         <li><a href="#step7">7. Pro Tips</a></li>
-        <li class="nav-group">Workflow</li>
-        <li><a href="#receipt-ocr">Receipt OCR</a></li>
         <li class="nav-group">Reference</li>
         <li><a href="#libraries">Libraries</a></li>
         <li><a href="#summary">Summary</a></li>
@@ -1382,6 +1381,251 @@ crontab -e
         </div>
       </section>
 
+      <!-- Receipt OCR Workflow -->
+      <section id="receipt-ocr">
+        <h2 class="section-title">Receipt OCR — Google Drive + OpenAI Vision</h2>
+
+        <div class="card" style="margin-bottom:1.5rem">
+          <p style="font-weight:600;color:var(--text-primary);margin-bottom:8px">Google Drive Public URL + OpenAI Vision 방식</p>
+          <p>base64 변환 없이 이미지 URL을 직접 전달하는 가장 안정적인 n8n 구조입니다.<br>OpenAI Vision 공식 문서에서도 이미지 URL 입력을 지원합니다.</p>
+        </div>
+
+        <div class="substep">
+          <h4>전체 아키텍처</h4>
+          <div class="card">
+            <div class="flow">
+              <div class="flow-node">Google Drive<div class="label">영수증 이미지 업로드</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Google Drive Trigger<div class="label">새 파일 감지</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Get File Metadata<div class="label">File ID 추출</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Public URL 생성<div class="label">uc?export=view&amp;id=FILE_ID</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">OpenAI Vision API<div class="label">이미지 분석 + JSON 추출</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">JSON 파싱<div class="label">Code Node</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Google Sheets 저장<div class="label">구조화된 데이터 저장</div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>이 방식의 장점</h4>
+          <div class="method-grid">
+            <div class="method-card">
+              <h4>base64 불필요</h4>
+              <p>이미지를 인코딩할 필요 없이 URL만 전달</p>
+            </div>
+            <div class="method-card">
+              <h4>Payload 최소화</h4>
+              <p>URL 문자열만 전송하므로 요청 크기가 작음</p>
+            </div>
+            <div class="method-card">
+              <h4>빠른 처리 속도</h4>
+              <p>인코딩/디코딩 과정 생략으로 속도 향상</p>
+            </div>
+            <div class="method-card">
+              <h4>MIME 오류 없음</h4>
+              <p>파일 형식 자동 감지, Content-Type 걱정 불필요</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Step 1. Google Drive 설정</h4>
+          <div class="card">
+            <p style="font-weight:500;color:var(--text-primary)">영수증 저장 폴더 생성</p>
+            <p>Google Drive에 <code>영수증_OCR</code> 폴더를 만들고, 공유 설정을 <strong>Anyone with link &rarr; Viewer</strong>로 변경합니다.</p>
+          </div>
+          <div class="insight">
+            <strong>URL 형식</strong> — Google Drive는 다음 URL로 이미지에 직접 접근할 수 있습니다. Google 공식 문서에서도 <code>uc?id=</code> 방식이 직접 다운로드 링크로 사용됩니다.
+          </div>
+          <div class="code-block">
+            <div class="code-header">Google Drive Direct URL Format</div>
+            <pre><code><span class="cm">// 올바른 URL 형식</span>
+https://drive.google.com/uc?export=view&amp;id=<span class="str">FILE_ID</span>
+
+<span class="cm">// 잘못된 URL 형식 (OpenAI에서 접근 불가)</span>
+<span class="cm">// https://drive.google.com/file/d/FILE_ID/view</span></code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Step 2. n8n에서 이미지 URL 생성</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">Google Drive 노드에서 File ID를 얻고, Public URL을 조합합니다.</p>
+          <div class="code-block">
+            <div class="code-header">n8n Expression</div>
+            <pre><code><span class="cm">// File ID 참조</span>
+{{$json["id"]}}
+
+<span class="cm">// 이미지 직접 접근 URL 생성</span>
+https://drive.google.com/uc?export=view&amp;id={{$json["id"]}}</code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Step 3. OpenAI Vision API 호출</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">HTTP Request 노드에서 OpenAI Chat Completions API를 호출합니다.</p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Setting</th><th>Value</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><strong>URL</strong></td><td><code>https://api.openai.com/v1/chat/completions</code></td></tr>
+                <tr><td><strong>Method</strong></td><td>POST</td></tr>
+                <tr><td><strong>Authorization</strong></td><td><code>Bearer OPENAI_API_KEY</code></td></tr>
+                <tr><td><strong>Content-Type</strong></td><td><code>application/json</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header">HTTP Request Body (JSON)</div>
+            <pre><code>{
+  <span class="str">"model"</span>: <span class="str">"gpt-4o-mini"</span>,
+  <span class="str">"temperature"</span>: <span class="num">0</span>,
+  <span class="str">"response_format"</span>: { <span class="str">"type"</span>: <span class="str">"json_object"</span> },
+  <span class="str">"messages"</span>: [
+    {
+      <span class="str">"role"</span>: <span class="str">"system"</span>,
+      <span class="str">"content"</span>: <span class="str">"You extract structured data from receipts. Return JSON only."</span>
+    },
+    {
+      <span class="str">"role"</span>: <span class="str">"user"</span>,
+      <span class="str">"content"</span>: [
+        {
+          <span class="str">"type"</span>: <span class="str">"image_url"</span>,
+          <span class="str">"image_url"</span>: {
+            <span class="str">"url"</span>: <span class="str">"https://drive.google.com/uc?export=view&amp;id={{$json.id}}"</span>
+          }
+        },
+        {
+          <span class="str">"type"</span>: <span class="str">"text"</span>,
+          <span class="str">"text"</span>: <span class="str">"영수증에서 date, vendor, total_amount, currency, tax_amount, payment_method 추출"</span>
+        }
+      ]
+    }
+  ]
+}</code></pre>
+          </div>
+          <div class="insight">
+            <strong>핵심 포인트</strong> — <code>image_url</code>에 Google Drive Public URL을 직접 전달합니다. base64 변환이 필요 없으므로 n8n 워크플로우가 단순해지고 안정적입니다.
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Step 4. JSON 파싱</h4>
+          <p style="color:var(--text-secondary);margin-bottom:1rem">Code 노드에서 OpenAI 응답을 파싱합니다.</p>
+          <div class="code-block">
+            <div class="code-header">n8n Code Node</div>
+            <pre><code><span class="kw">const</span> content = $json.choices[<span class="num">0</span>].message.content;
+<span class="kw">return</span> [{ json: JSON.<span class="fn">parse</span>(content) }];</code></pre>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>Step 5. Google Sheets 저장</h4>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Column</th><th>Mapping</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>date</td><td><code>{{$json.date}}</code></td></tr>
+                <tr><td>vendor</td><td><code>{{$json.vendor}}</code></td></tr>
+                <tr><td>total_amount</td><td><code>{{$json.total_amount}}</code></td></tr>
+                <tr><td>currency</td><td><code>{{$json.currency}}</code></td></tr>
+                <tr><td>tax_amount</td><td><code>{{$json.tax_amount}}</code></td></tr>
+                <tr><td>payment_method</td><td><code>{{$json.payment_method}}</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>최종 워크플로우 요약</h4>
+          <div class="card">
+            <div class="flow">
+              <div class="flow-node">Google Drive Trigger<div class="label">새 파일 감지</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Create Public URL<div class="label">uc?export=view 형식</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">OpenAI Vision<div class="label">이미지 분석 + 데이터 추출</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Parse JSON<div class="label">응답 파싱</div></div>
+              <div class="flow-arrow"></div>
+              <div class="flow-node">Google Sheets<div class="label">구조화 데이터 저장</div></div>
+            </div>
+            <p style="text-align:center;margin-top:0.5rem;font-weight:600;color:var(--text-primary)">총 노드 수: 4개</p>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>실행 예시</h4>
+          <div class="method-grid">
+            <div class="method-card">
+              <h4>입력: 영수증 업로드</h4>
+              <p style="font-size:14px;color:var(--text-primary)">스타벅스 아메리카노 6,500원</p>
+            </div>
+            <div class="method-card">
+              <h4>출력: AI 추출 결과</h4>
+              <p style="font-size:14px;color:var(--text-primary)">자동 JSON 변환 &rarr; Sheets 저장</p>
+            </div>
+          </div>
+          <div class="code-block">
+            <div class="code-header">OpenAI Vision 응답 결과</div>
+            <pre><code>{
+  <span class="str">"date"</span>: <span class="str">"2026-03-13"</span>,
+  <span class="str">"vendor"</span>: <span class="str">"Starbucks"</span>,
+  <span class="str">"total_amount"</span>: <span class="num">6500</span>,
+  <span class="str">"currency"</span>: <span class="str">"KRW"</span>,
+  <span class="str">"tax_amount"</span>: <span class="num">591</span>,
+  <span class="str">"payment_method"</span>: <span class="str">"card"</span>
+}</code></pre>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>date</th><th>vendor</th><th>total_amount</th><th>currency</th><th>tax_amount</th><th>payment_method</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>2026-03-13</td><td>Starbucks</td><td>6,500</td><td>KRW</td><td>591</td><td>card</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="substep">
+          <h4>중요 팁: Drive URL 형식</h4>
+          <div class="card">
+            <div class="table-wrapper" style="margin-bottom:0">
+              <table class="tips-table">
+                <thead>
+                  <tr><th>Status</th><th>URL Format</th><th>설명</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="color:#dc2626;font-weight:700">Wrong</td>
+                    <td><code>https://drive.google.com/file/d/FILE_ID/view</code></td>
+                    <td>뷰어 페이지 — OpenAI에서 이미지 접근 불가</td>
+                  </tr>
+                  <tr>
+                    <td style="color:#16a34a;font-weight:700">Correct</td>
+                    <td><code>https://drive.google.com/uc?export=view&amp;id=FILE_ID</code></td>
+                    <td>직접 이미지 URL — OpenAI Vision에서 정상 접근</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="insight">
+            <strong>Core Insight</strong> — 반드시 <code>uc?export=view&amp;id=</code> 형식을 사용해야 OpenAI 서버에서 이미지에 직접 접근할 수 있습니다. <code>/file/d/.../view</code> 형식은 HTML 뷰어 페이지이므로 Vision API가 이미지를 인식하지 못합니다.
+          </div>
+        </div>
+      </section>
+
       <!-- Step 1 -->
       <section id="step1">
         <div class="step-header">
@@ -1777,251 +2021,6 @@ claude <span class="str">"다크모드 토글 컴포넌트 만들어서 헤더�
             <li><code>.gitignore</code> — Ensure .env is excluded</li>
             <li><code>npx tsc --noEmit</code> — Type check</li>
           </ul>
-        </div>
-      </section>
-
-      <!-- Receipt OCR Workflow -->
-      <section id="receipt-ocr">
-        <h2 class="section-title">Receipt OCR — Google Drive + OpenAI Vision</h2>
-
-        <div class="card" style="margin-bottom:1.5rem">
-          <p style="font-weight:600;color:var(--text-primary);margin-bottom:8px">Google Drive Public URL + OpenAI Vision 방식</p>
-          <p>base64 변환 없이 이미지 URL을 직접 전달하는 가장 안정적인 n8n 구조입니다.<br>OpenAI Vision 공식 문서에서도 이미지 URL 입력을 지원합니다.</p>
-        </div>
-
-        <div class="substep">
-          <h4>전체 아키텍처</h4>
-          <div class="card">
-            <div class="flow">
-              <div class="flow-node">Google Drive<div class="label">영수증 이미지 업로드</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">Google Drive Trigger<div class="label">새 파일 감지</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">Get File Metadata<div class="label">File ID 추출</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">Public URL 생성<div class="label">uc?export=view&amp;id=FILE_ID</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">OpenAI Vision API<div class="label">이미지 분석 + JSON 추출</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">JSON 파싱<div class="label">Code Node</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">Google Sheets 저장<div class="label">구조화된 데이터 저장</div></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>이 방식의 장점</h4>
-          <div class="method-grid">
-            <div class="method-card">
-              <h4>base64 불필요</h4>
-              <p>이미지를 인코딩할 필요 없이 URL만 전달</p>
-            </div>
-            <div class="method-card">
-              <h4>Payload 최소화</h4>
-              <p>URL 문자열만 전송하므로 요청 크기가 작음</p>
-            </div>
-            <div class="method-card">
-              <h4>빠른 처리 속도</h4>
-              <p>인코딩/디코딩 과정 생략으로 속도 향상</p>
-            </div>
-            <div class="method-card">
-              <h4>MIME 오류 없음</h4>
-              <p>파일 형식 자동 감지, Content-Type 걱정 불필요</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>Step 1. Google Drive 설정</h4>
-          <div class="card">
-            <p style="font-weight:500;color:var(--text-primary)">영수증 저장 폴더 생성</p>
-            <p>Google Drive에 <code>영수증_OCR</code> 폴더를 만들고, 공유 설정을 <strong>Anyone with link &rarr; Viewer</strong>로 변경합니다.</p>
-          </div>
-          <div class="insight">
-            <strong>URL 형식</strong> — Google Drive는 다음 URL로 이미지에 직접 접근할 수 있습니다. Google 공식 문서에서도 <code>uc?id=</code> 방식이 직접 다운로드 링크로 사용됩니다.
-          </div>
-          <div class="code-block">
-            <div class="code-header">Google Drive Direct URL Format</div>
-            <pre><code><span class="cm">// 올바른 URL 형식</span>
-https://drive.google.com/uc?export=view&amp;id=<span class="str">FILE_ID</span>
-
-<span class="cm">// 잘못된 URL 형식 (OpenAI에서 접근 불가)</span>
-<span class="cm">// https://drive.google.com/file/d/FILE_ID/view</span></code></pre>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>Step 2. n8n에서 이미지 URL 생성</h4>
-          <p style="color:var(--text-secondary);margin-bottom:1rem">Google Drive 노드에서 File ID를 얻고, Public URL을 조합합니다.</p>
-          <div class="code-block">
-            <div class="code-header">n8n Expression</div>
-            <pre><code><span class="cm">// File ID 참조</span>
-{{$json["id"]}}
-
-<span class="cm">// 이미지 직접 접근 URL 생성</span>
-https://drive.google.com/uc?export=view&amp;id={{$json["id"]}}</code></pre>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>Step 3. OpenAI Vision API 호출</h4>
-          <p style="color:var(--text-secondary);margin-bottom:1rem">HTTP Request 노드에서 OpenAI Chat Completions API를 호출합니다.</p>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr><th>Setting</th><th>Value</th></tr>
-              </thead>
-              <tbody>
-                <tr><td><strong>URL</strong></td><td><code>https://api.openai.com/v1/chat/completions</code></td></tr>
-                <tr><td><strong>Method</strong></td><td>POST</td></tr>
-                <tr><td><strong>Authorization</strong></td><td><code>Bearer OPENAI_API_KEY</code></td></tr>
-                <tr><td><strong>Content-Type</strong></td><td><code>application/json</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="code-block">
-            <div class="code-header">HTTP Request Body (JSON)</div>
-            <pre><code>{
-  <span class="str">"model"</span>: <span class="str">"gpt-4o-mini"</span>,
-  <span class="str">"temperature"</span>: <span class="num">0</span>,
-  <span class="str">"response_format"</span>: { <span class="str">"type"</span>: <span class="str">"json_object"</span> },
-  <span class="str">"messages"</span>: [
-    {
-      <span class="str">"role"</span>: <span class="str">"system"</span>,
-      <span class="str">"content"</span>: <span class="str">"You extract structured data from receipts. Return JSON only."</span>
-    },
-    {
-      <span class="str">"role"</span>: <span class="str">"user"</span>,
-      <span class="str">"content"</span>: [
-        {
-          <span class="str">"type"</span>: <span class="str">"image_url"</span>,
-          <span class="str">"image_url"</span>: {
-            <span class="str">"url"</span>: <span class="str">"https://drive.google.com/uc?export=view&amp;id={{$json.id}}"</span>
-          }
-        },
-        {
-          <span class="str">"type"</span>: <span class="str">"text"</span>,
-          <span class="str">"text"</span>: <span class="str">"영수증에서 date, vendor, total_amount, currency, tax_amount, payment_method 추출"</span>
-        }
-      ]
-    }
-  ]
-}</code></pre>
-          </div>
-          <div class="insight">
-            <strong>핵심 포인트</strong> — <code>image_url</code>에 Google Drive Public URL을 직접 전달합니다. base64 변환이 필요 없으므로 n8n 워크플로우가 단순해지고 안정적입니다.
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>Step 4. JSON 파싱</h4>
-          <p style="color:var(--text-secondary);margin-bottom:1rem">Code 노드에서 OpenAI 응답을 파싱합니다.</p>
-          <div class="code-block">
-            <div class="code-header">n8n Code Node</div>
-            <pre><code><span class="kw">const</span> content = $json.choices[<span class="num">0</span>].message.content;
-<span class="kw">return</span> [{ json: JSON.<span class="fn">parse</span>(content) }];</code></pre>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>Step 5. Google Sheets 저장</h4>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr><th>Column</th><th>Mapping</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>date</td><td><code>{{$json.date}}</code></td></tr>
-                <tr><td>vendor</td><td><code>{{$json.vendor}}</code></td></tr>
-                <tr><td>total_amount</td><td><code>{{$json.total_amount}}</code></td></tr>
-                <tr><td>currency</td><td><code>{{$json.currency}}</code></td></tr>
-                <tr><td>tax_amount</td><td><code>{{$json.tax_amount}}</code></td></tr>
-                <tr><td>payment_method</td><td><code>{{$json.payment_method}}</code></td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>최종 워크플로우 요약</h4>
-          <div class="card">
-            <div class="flow">
-              <div class="flow-node">Google Drive Trigger<div class="label">새 파일 감지</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">Create Public URL<div class="label">uc?export=view 형식</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">OpenAI Vision<div class="label">이미지 분석 + 데이터 추출</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">Parse JSON<div class="label">응답 파싱</div></div>
-              <div class="flow-arrow"></div>
-              <div class="flow-node">Google Sheets<div class="label">구조화 데이터 저장</div></div>
-            </div>
-            <p style="text-align:center;margin-top:0.5rem;font-weight:600;color:var(--text-primary)">총 노드 수: 4개</p>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>실행 예시</h4>
-          <div class="method-grid">
-            <div class="method-card">
-              <h4>입력: 영수증 업로드</h4>
-              <p style="font-size:14px;color:var(--text-primary)">스타벅스 아메리카노 6,500원</p>
-            </div>
-            <div class="method-card">
-              <h4>출력: AI 추출 결과</h4>
-              <p style="font-size:14px;color:var(--text-primary)">자동 JSON 변환 &rarr; Sheets 저장</p>
-            </div>
-          </div>
-          <div class="code-block">
-            <div class="code-header">OpenAI Vision 응답 결과</div>
-            <pre><code>{
-  <span class="str">"date"</span>: <span class="str">"2026-03-13"</span>,
-  <span class="str">"vendor"</span>: <span class="str">"Starbucks"</span>,
-  <span class="str">"total_amount"</span>: <span class="num">6500</span>,
-  <span class="str">"currency"</span>: <span class="str">"KRW"</span>,
-  <span class="str">"tax_amount"</span>: <span class="num">591</span>,
-  <span class="str">"payment_method"</span>: <span class="str">"card"</span>
-}</code></pre>
-          </div>
-          <div class="table-wrapper">
-            <table>
-              <thead>
-                <tr><th>date</th><th>vendor</th><th>total_amount</th><th>currency</th><th>tax_amount</th><th>payment_method</th></tr>
-              </thead>
-              <tbody>
-                <tr><td>2026-03-13</td><td>Starbucks</td><td>6,500</td><td>KRW</td><td>591</td><td>card</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <div class="substep">
-          <h4>중요 팁: Drive URL 형식</h4>
-          <div class="card">
-            <div class="table-wrapper" style="margin-bottom:0">
-              <table class="tips-table">
-                <thead>
-                  <tr><th>Status</th><th>URL Format</th><th>설명</th></tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style="color:#dc2626;font-weight:700">Wrong</td>
-                    <td><code>https://drive.google.com/file/d/FILE_ID/view</code></td>
-                    <td>뷰어 페이지 — OpenAI에서 이미지 접근 불가</td>
-                  </tr>
-                  <tr>
-                    <td style="color:#16a34a;font-weight:700">Correct</td>
-                    <td><code>https://drive.google.com/uc?export=view&amp;id=FILE_ID</code></td>
-                    <td>직접 이미지 URL — OpenAI Vision에서 정상 접근</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="insight">
-            <strong>Core Insight</strong> — 반드시 <code>uc?export=view&amp;id=</code> 형식을 사용해야 OpenAI 서버에서 이미지에 직접 접근할 수 있습니다. <code>/file/d/.../view</code> 형식은 HTML 뷰어 페이지이므로 Vision API가 이미지를 인식하지 못합니다.
-          </div>
         </div>
       </section>
 
